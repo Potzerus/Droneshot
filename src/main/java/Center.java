@@ -1,3 +1,4 @@
+import org.javacord.api.entity.permission.PermissionType;
 import potz.utils.database.ServerStorage;
 import potz.utils.database.State;
 import org.javacord.api.DiscordApi;
@@ -7,6 +8,7 @@ import potz.Utils;
 public class Center {
     private static DiscordApi api;
     private static State state = new State();
+    private static String prefix="droneshot";
 
 
     public static void main(String[] args) {
@@ -14,20 +16,28 @@ public class Center {
 
         api.addMessageCreateListener(event -> {
             System.out.println(event.getMessageContent());
-            if (event.getMessageContent().startsWith("^Toybox")) {
-                String[] argus = Utils.parseArgsArray(event.getMessageContent());
+            if (event.getMessageContent().startsWith(prefix)) {
+                String[] argus = event.getMessageContent().split(" ");
+
+                //Console Info
                 for (int i = 0; i < argus.length; i++) {
                     System.out.println(i + ": " + argus[i]);
-
                 }
                 System.out.println();
-                if (event.getServer().isPresent() && event.getMessageAuthor().isBotOwner() && argus.length == 3 && argus[1].equals("enable")) {
+
+                if (event.getServer().isPresent()
+                        && Utils.hasPermission(event.getMessageAuthor().asUser().get(),event.getServer().get(), PermissionType.MANAGE_CHANNELS)
+                        && argus.length == 3
+                        && argus[1].equals("enable")
+                        && argus[2].equals("drone")) {
                     long serverId = event.getServer().get().getId();
                     ServerStorage ss = state.getServer(serverId);
-                    for (Modules m : Modules.values()) {
-                        if (m.activate(ss, event, serverId, argus[2].toLowerCase()))
-                            break;
-                    }
+                    if(!ss.hasActiveModule("drone")) {
+                        ss.addModule(new DroneModule("d!", api, event.getServer().get(), state));
+                        event.getChannel().sendMessage("Module activated!");
+                    } else
+                        event.getChannel().sendMessage("This Module is already Active!");
+
                 }
             }
         });
