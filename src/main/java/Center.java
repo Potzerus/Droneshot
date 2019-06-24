@@ -26,7 +26,7 @@ public class Center {
                 System.out.println();
 
                 if (event.getServer().isPresent()
-                        && Utils.hasPermission(event.getMessageAuthor().asUser().get(),event.getServer().get(), PermissionType.MANAGE_CHANNELS)
+                        && Utils.hasPermission(event.getMessageAuthor().asUser().get(),event.getServer().get(), PermissionType.MANAGE_CHANNELS,PermissionType.ADMINISTRATOR)
                         && argus.length == 3
                         && argus[1].equals("enable")
                         && argus[2].equals("drone")) {

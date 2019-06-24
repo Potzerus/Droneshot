@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="potz.DiscordBotBase.main" target="1.8" />
+      <module name="potz.DiscordBotBase.test" target="1.8" />
+      <module name="potz.utils.DiscordBotBase.main" target="1.8" />
+      <module name="potz.utils.DiscordBotBase.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
