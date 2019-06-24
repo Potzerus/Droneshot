@@ -85,9 +85,16 @@ public class Drone implements Iterable<Component> {
     }
 
     public String getInfo(){
-        StringBuilder sb=new StringBuilder();
+        ArrayList<String> sl=new ArrayList<>();
         for (Component c:this) {
-            sb.append(c.toString());
+            sl.add(c.toString());
+        }
+        Object[] output=sl.toArray();
+        Arrays.sort(output);
+
+        StringBuilder sb=new StringBuilder();
+        for (Object o:output) {
+            sb.append(o.toString());
             sb.append('\n');
         }
         return sb.toString();
