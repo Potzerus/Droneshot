@@ -39,6 +39,8 @@ public class DroneUtils {
 
     }
 
+
+
     public static int genId(){
         return idTick++;
     }

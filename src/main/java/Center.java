@@ -5,10 +5,13 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import potz.Utils;
 
+import java.util.Arrays;
+
 public class Center {
     private static DiscordApi api;
     private static State state = new State();
-    private static String prefix="droneshot";
+    private static String prefix = "droneshot";
+    private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L};
 
 
     public static void main(String[] args) {
@@ -25,14 +28,17 @@ public class Center {
                 }
                 System.out.println();
 
-                if (event.getServer().isPresent()
-                        && Utils.hasPermission(event.getMessageAuthor().asUser().get(),event.getServer().get(), PermissionType.MANAGE_CHANNELS,PermissionType.ADMINISTRATOR)
+                if (event.getMessageAuthor().asUser().isPresent() && event.getServer().isPresent()
+
+                        && (Utils.hasPermission(event.getMessageAuthor().asUser().get(), event.getServer().get(), PermissionType.MANAGE_CHANNELS, PermissionType.ADMINISTRATOR)
+                        || Arrays.asList(botAuthors).contains(event.getMessageAuthor().getId()))
+
                         && argus.length == 3
                         && argus[1].equals("enable")
                         && argus[2].equals("drone")) {
                     long serverId = event.getServer().get().getId();
                     ServerStorage ss = state.getServer(serverId);
-                    if(!ss.hasActiveModule("drone")) {
+                    if (!ss.hasActiveModule("drone")) {
                         ss.addModule(new DroneModule("d!", api, event.getServer().get(), state));
                         event.getChannel().sendMessage("Module activated!");
                     } else

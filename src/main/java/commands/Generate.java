@@ -30,7 +30,7 @@ public class Generate extends Command {
             droneStorage.addDrone(drone);
         }else
             c.sendMessage("You already have a drone! add ``reset`` to the command to replace all your drones " +
-                    "with a single default one (You will loose all their parts and resources!)");
+                    "with a single default one (You will lose all their parts and resources!)");
         else if(args.length==3&&args[2].equals("reset")){
             droneStorage.reset();
             droneStorage.addDrone(DroneUtils.buildDefaultDrone());

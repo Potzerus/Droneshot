@@ -6,31 +6,69 @@ import potz.utils.database.Char;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class DroneStorage implements Iterable<Drone>{
-    Char owner;
-    HashSet<Drone> drones=new HashSet<>();
+public class DroneStorage implements Iterable<Drone> {
+    private Char owner;
+    private HashSet<Drone> drones = new HashSet<>();
+    private Drone selectedDrone;
 
     public DroneStorage(Char owner) {
         this.owner = owner;
     }
 
-    public boolean addDrone(Drone d){
+    public boolean addDrone(Drone d) {
+        if(drones.isEmpty())
+            selectedDrone=d;
         return drones.add(d);
     }
 
-    public int getSize(){
+    public Drone getSelectedDrone(){
+        return selectedDrone;
+    }
+
+    public void selectDrone(Drone d){
+        if(d!=null)
+        selectedDrone=d;
+    }
+
+    //Looks for Drone with matching id, if String cannot be converted to integer searches for name instead
+    public Drone getDrone(String droneIdentifier) {
+        try {
+            Drone output= seekDrone(Integer.parseInt(droneIdentifier));
+            if(output!=null)
+                return output;
+        } catch (NumberFormatException e){}
+        return seekDrone(droneIdentifier);
+    }
+
+    private Drone seekDrone(int droneId) {
+        for (Drone d : this) {
+            if (d.getId() == droneId)
+                return d;
+        }
+        return null;
+    }
+
+    private Drone seekDrone(String droneName) {
+        for (Drone d : this) {
+            if (droneName.equals(d.getName()))
+                return d;
+        }
+        return null;
+    }
+
+    public int getSize() {
         return drones.size();
     }
 
-    public boolean removeDrone(Drone d){
+    public boolean removeDrone(Drone d) {
         return drones.remove(d);
     }
 
-    public boolean hasDrone(Drone d){
+    public boolean hasDrone(Drone d) {
         return drones.contains(d);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return drones.isEmpty();
     }
 
@@ -39,13 +77,17 @@ public class DroneStorage implements Iterable<Drone>{
         return drones.iterator();
     }
 
-    public void listDronesAsEmbeds(EmbedBuilder embedBuilder){
-        for (Drone d:drones) {
-            d.toEmbedField(embedBuilder);
+    public void listDronesAsEmbeds(EmbedBuilder embedBuilder) {
+        for (Drone d : drones) {
+            embedBuilder.addField(d.getIdentity(),d.getDroneInfo());
         }
     }
 
     public void reset() {
         drones.clear();
+    }
+
+    public static DroneStorage getStorage(Char c){
+        return (DroneStorage) c.getStat("droneStorage");
     }
 }

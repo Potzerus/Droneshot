@@ -16,7 +16,7 @@ public class Drone implements Iterable<Component> {
     private int id = DroneUtils.genId();
     private Char owner;
     private Action queuedAction;
-    private int[] resources=new int[ResourceType.values().length];
+    private int[] resources = new int[ResourceType.values().length];
 
     public Drone(Component rootComponent) {
         this.rootComponent = rootComponent;
@@ -27,8 +27,12 @@ public class Drone implements Iterable<Component> {
         this.owner = owner;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Action[] getActions() {
@@ -60,12 +64,12 @@ public class Drone implements Iterable<Component> {
     }
 
     public void recalculateResources() {
-        Arrays.fill(resources,0);
+        Arrays.fill(resources, 0);
         for (Component c : this) {
             if (c instanceof Storage) {
                 int[] addition = ((Storage) c).getResource();
                 for (int i = 0; i < resources.length; i++) {
-                    resources[i]+=addition[i];
+                    resources[i] += addition[i];
                 }
             }
         }
@@ -81,27 +85,45 @@ public class Drone implements Iterable<Component> {
 
     @Override
     public String toString() {
-        StringBuilder sb=new StringBuilder(name + ":" + id);
+        StringBuilder sb = new StringBuilder(name + ":" + id);
         sb.append('\n');
-
-
+        sb.append(getDroneInfo());
         return sb.toString();
     }
 
-    public String getIdentity(){
-        return name+":"+id;
+    public String getDroneInfo() {
+        StringBuilder sb = new StringBuilder();
+        ResourceType[] types = ResourceType.values();
+        boolean noResources=true;
+        sb.append("Resources: ");
+        for (int i = 1; i < types.length; i++) {
+            if (resources[i] > 0) {
+                sb.append(types[i].getName());
+                sb.append(':');
+                sb.append(resources[i]);
+                sb.append(" ");
+                noResources=false;
+            }
+        }
+        if(noResources)
+            sb.append("None ");
+        return sb.toString();
     }
 
-    public String getInfo(){
-        ArrayList<String> sl=new ArrayList<>();
-        for (Component c:this) {
+    public String getIdentity() {
+        return name + ":" + id;
+    }
+
+    public String getComponentInfo() {
+        ArrayList<String> sl = new ArrayList<>();
+        for (Component c : this) {
             sl.add(c.toString());
         }
-        Object[] output=sl.toArray();
+        Object[] output = sl.toArray();
         Arrays.sort(output);
 
-        StringBuilder sb=new StringBuilder();
-        for (Object o:output) {
+        StringBuilder sb = new StringBuilder();
+        for (Object o : output) {
             sb.append(o.toString());
             sb.append('\n');
         }
@@ -109,7 +131,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public void toEmbedField(EmbedBuilder embedBuilder) {
-        embedBuilder.addField(getIdentity(), getInfo());
+        embedBuilder.addField("Components:", getComponentInfo());
     }
 
 }
