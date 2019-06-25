@@ -35,6 +35,6 @@ public class ComponentStorage extends DefaultComponent {
             if (!storageSockets[i].isLinked())
                 freeSocketCount++;
         }
-        return super.toString() + (freeSocketCount > 0 ? "Available Output Slots:" + freeSocketCount:"");
+        return "ComponentStorage:" + (freeSocketCount > 0 ? "Free Output Slots:" + freeSocketCount:"No Free Output Slots");
     }
 }

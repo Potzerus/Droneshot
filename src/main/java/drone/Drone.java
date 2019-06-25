@@ -3,6 +3,7 @@ package drone;
 import drone.actions.Action;
 import drone.component.Component;
 import drone.component.Storage;
+import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import potz.utils.database.Char;
 import util.DroneUtils;
@@ -12,10 +13,10 @@ import java.util.*;
 public class Drone implements Iterable<Component> {
     private Component rootComponent;
     private String name;
-    private int id = DroneUtils.getId();
+    private int id = DroneUtils.genId();
     private Char owner;
     private Action queuedAction;
-    private int[] resources;
+    private int[] resources=new int[ResourceType.values().length];
 
     public Drone(Component rootComponent) {
         this.rootComponent = rootComponent;
@@ -24,6 +25,10 @@ public class Drone implements Iterable<Component> {
     public Drone(Component rootComponent, Char owner) {
         this(rootComponent);
         this.owner = owner;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public Action[] getActions() {
@@ -54,7 +59,7 @@ public class Drone implements Iterable<Component> {
         return false;
     }
 
-    public void reCalculateResources() {
+    public void recalculateResources() {
         Arrays.fill(resources,0);
         for (Component c : this) {
             if (c instanceof Storage) {
@@ -76,9 +81,12 @@ public class Drone implements Iterable<Component> {
 
     @Override
     public String toString() {
-        return name + ":" + id;
-    }
+        StringBuilder sb=new StringBuilder(name + ":" + id);
+        sb.append('\n');
 
+
+        return sb.toString();
+    }
 
     public String getIdentity(){
         return name+":"+id;
@@ -103,4 +111,5 @@ public class Drone implements Iterable<Component> {
     public void toEmbedField(EmbedBuilder embedBuilder) {
         embedBuilder.addField(getIdentity(), getInfo());
     }
+
 }

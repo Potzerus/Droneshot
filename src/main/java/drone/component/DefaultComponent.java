@@ -55,6 +55,6 @@ public class DefaultComponent implements Component {
 
     @Override
     public String toString() {
-        return identifier+":"+((carryingSockets.length>0)?" carry:"+carryingSockets.length+";":""+((carriedSockets.length>0)?" carried:"+carriedSockets.length+";":""));
+        return identifier+":"+((carryingSockets.length>0)?" +"+carryingSockets.length:""+((carriedSockets.length>0)?" -"+carriedSockets.length:""));
     }
 }

@@ -39,7 +39,7 @@ public class DroneUtils {
 
     }
 
-    public static int getId(){
+    public static int genId(){
         return idTick++;
     }
 }

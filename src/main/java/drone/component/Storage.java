@@ -2,6 +2,8 @@ package drone.component;
 
 import map.ResourceType;
 
+import javax.annotation.Resource;
+
 public class Storage extends DefaultComponent {
 
     private int storageCapacity;
@@ -26,20 +28,23 @@ public class Storage extends DefaultComponent {
         if (this.type == ResourceType.NONE || this.type == type) {
             this.type = type;
             currentAmount += amount;
-            if (currentAmount < 0) {
+            if (currentAmount <= 0) {
                 amount = currentAmount;
                 currentAmount = 0;
                 this.type = ResourceType.NONE;
             } else if (currentAmount > storageCapacity) {
                 amount = currentAmount - storageCapacity;
                 currentAmount = storageCapacity;
-            }
+            }else
+                amount=0;
         }
         return amount;
     }
 
     public int[] getResource() {
-        return new int[0];
+        int[] resources=new int[ResourceType.values().length];
+        resources[type.ordinal()]=currentAmount;
+        return resources;
     }
 
     @Override
