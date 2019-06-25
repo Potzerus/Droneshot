@@ -1,7 +1,12 @@
 package util;
 
 import drone.Drone;
+import drone.DroneStorage;
 import drone.component.*;
+import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.user.User;
+import potz.utils.commandMaps.CommandMap;
+import potz.utils.database.Char;
 
 public class DroneUtils {
     private static int idTick;
@@ -39,7 +44,15 @@ public class DroneUtils {
 
     }
 
-
+    public static DroneStorage getStorageOrWarnUser(User sender, TextChannel c, CommandMap commandMap) throws CommandFuckedUpException{
+        Char character = commandMap.getServerStorage().getOrAddPlayer(sender.getId());
+        DroneStorage droneStorage = DroneStorage.getStorage(character);
+        if (droneStorage == null) {
+            c.sendMessage("You don't have any Drones, please type ``" + commandMap.getModule().getPrefix() + " generate`` to get started!");
+            throw new CommandFuckedUpException();
+        }
+        return droneStorage;
+    }
 
     public static int genId(){
         return idTick++;

@@ -18,6 +18,7 @@ public class Drone implements Iterable<Component> {
     private Action queuedAction;
     private int[] resources = new int[ResourceType.values().length];
 
+
     public Drone(Component rootComponent) {
         this.rootComponent = rootComponent;
     }
@@ -36,11 +37,16 @@ public class Drone implements Iterable<Component> {
     }
 
     public Action[] getActions() {
-        ArrayList<Action> list = new ArrayList<>();
+        HashSet<Action> set = new HashSet<>();
         for (Component c : this) {
-            list.add(c.getAction());
+            set.add(c.getAction());
         }
-        return (Action[]) list.toArray();
+        Action[] actions=new Action[set.size()];
+        int i=0;
+        for (Action a:set) {
+            actions[i++]=a;
+        }
+        return actions;
     }
 
     public void setOwner(Char owner) {
