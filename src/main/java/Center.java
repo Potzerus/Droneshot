@@ -12,6 +12,7 @@ public class Center {
     private static State state = new State();
     private static String prefix = "droneshot";
     private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L};
+    private static Long[] defaultServers=new Long[]{532907700326105108L};
 
 
     public static void main(String[] args) {
@@ -48,6 +49,9 @@ public class Center {
             }
         });
 
+        for (long l:defaultServers) {
+            state.getServer(l).addModule(new DroneModule("d!",api,api.getServerById(l).get(),state));
+        }
         System.out.println("Setup Finished " + api.createBotInvite());
     }
 

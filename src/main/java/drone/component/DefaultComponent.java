@@ -10,6 +10,8 @@ public class DefaultComponent implements Component {
     protected Socket[] carryingSockets,carriedSockets;
     protected Action action;
     protected final String identifier;
+    protected ComponentType type;
+    protected String description="Default Description";
 
     public DefaultComponent(int carryingSocketAmount, int carriedSocketAmount) {
         this(carryingSocketAmount, carriedSocketAmount,"Basic");
@@ -22,6 +24,7 @@ public class DefaultComponent implements Component {
         this.carriedSockets=new Socket[carriedSocketAmount];
         Arrays.setAll(carriedSockets, value -> new Socket(component,false));
         this.identifier =identifier;
+        type=ComponentType.STRUCTURE;
     }
 
 
@@ -54,7 +57,20 @@ public class DefaultComponent implements Component {
     }
 
     @Override
-    public String toString() {
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public ComponentType getType() {
+        return type;
+    }
+
+    public String getSocketString() {
         return identifier+":"+((carryingSockets.length>0)?" +"+carryingSockets.length:""+((carriedSockets.length>0)?" -"+carriedSockets.length:""));
+    }
+
+    public String toString(){
+        return identifier+":"+(action==null?"No Action":action.toString());
     }
 }

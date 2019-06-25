@@ -1,6 +1,4 @@
-import commands.Check;
-import commands.Generate;
-import commands.Test;
+import commands.*;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import potz.utils.Module;
@@ -14,7 +12,11 @@ public class DroneModule extends Module {
         commandMap.registerAll(
                 new Test("test"),
                 new Check("check"),
-                new Generate("generate")
+                new Generate("generate"),
+                new Rename("rename"),
+                new Select("select"),
+                new Browse("browse"),
+                new ToggleId("toggleid")
         );
     }
 

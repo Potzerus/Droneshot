@@ -10,6 +10,7 @@ public class DroneStorage implements Iterable<Drone> {
     private Char owner;
     private HashSet<Drone> drones = new HashSet<>();
     private Drone selectedDrone;
+    private boolean showId=true;
 
     public DroneStorage(Char owner) {
         this.owner = owner;
@@ -79,7 +80,7 @@ public class DroneStorage implements Iterable<Drone> {
 
     public void listDronesAsEmbeds(EmbedBuilder embedBuilder) {
         for (Drone d : drones) {
-            embedBuilder.addField(d.getIdentity(),d.getDroneInfo());
+            embedBuilder.addField(d.getIdentity(showId),d.getDroneInfo());
         }
     }
 
@@ -89,5 +90,13 @@ public class DroneStorage implements Iterable<Drone> {
 
     public static DroneStorage getStorage(Char c){
         return (DroneStorage) c.getStat("droneStorage");
+    }
+
+    public boolean hasShowId(){
+        return showId;
+    }
+
+    public void toggleShowId(){
+        showId=!showId;
     }
 }

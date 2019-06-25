@@ -2,31 +2,31 @@ package drone;
 
 import drone.actions.Action;
 import drone.component.Component;
+import drone.component.ComponentType;
+import drone.component.Control;
 import drone.component.Storage;
 import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import potz.utils.database.Char;
+import util.DroneBrowser;
 import util.DroneUtils;
 
 import java.util.*;
 
 public class Drone implements Iterable<Component> {
-    private Component rootComponent;
-    private String name;
+    private Control rootComponent;
+    private String name="NoName";
     private int id = DroneUtils.genId();
-    private Char owner;
     private Action queuedAction;
     private int[] resources = new int[ResourceType.values().length];
+    private DroneBrowser browser;
 
 
-    public Drone(Component rootComponent) {
+    public Drone(Control rootComponent) {
         this.rootComponent = rootComponent;
+        browser=new DroneBrowser(rootComponent);
     }
 
-    public Drone(Component rootComponent, Char owner) {
-        this(rootComponent);
-        this.owner = owner;
-    }
 
     public int getId() {
         return id;
@@ -49,21 +49,17 @@ public class Drone implements Iterable<Component> {
         return actions;
     }
 
-    public void setOwner(Char owner) {
-        this.owner = owner;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public Component getRootComponent() {
+    public Control getRootComponent() {
         return rootComponent;
     }
 
-    public boolean hasComponentType(Class c) {
+    public boolean hasComponentType(ComponentType type) {
         for (Component component : this) {
-            if (c.isInstance(component))
+            if (type==component.getType())
                 return true;
         }
         return false;
@@ -72,13 +68,21 @@ public class Drone implements Iterable<Component> {
     public void recalculateResources() {
         Arrays.fill(resources, 0);
         for (Component c : this) {
-            if (c instanceof Storage) {
+            if (c.getType()==ComponentType.STORAGE) {
                 int[] addition = ((Storage) c).getResource();
                 for (int i = 0; i < resources.length; i++) {
                     resources[i] += addition[i];
                 }
             }
         }
+    }
+
+    public DroneBrowser getBrowser(){
+        return browser;
+    }
+
+    public void resetBrowser(){
+        browser=new DroneBrowser(rootComponent);
     }
 
     @Override
@@ -91,7 +95,7 @@ public class Drone implements Iterable<Component> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(name + ":" + id);
+        StringBuilder sb = new StringBuilder(getIdentity());
         sb.append('\n');
         sb.append(getDroneInfo());
         return sb.toString();
@@ -117,7 +121,11 @@ public class Drone implements Iterable<Component> {
     }
 
     public String getIdentity() {
-        return name + ":" + id;
+        return name + " : " + id;
+    }
+
+    public String getIdentity(boolean showId) {
+        return name + (showId?":" + id:"");
     }
 
     public String getComponentInfo() {

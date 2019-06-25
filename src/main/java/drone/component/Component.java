@@ -97,4 +97,8 @@ public interface Component {
         }
 
     }
+
+    String getDescription();
+
+    ComponentType getType();
 }

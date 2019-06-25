@@ -7,6 +7,7 @@ public class ComponentStorage extends DefaultComponent {
 
     public ComponentStorage(int carryingSocketAmount, int carriedSocketAmount, int storageSocketAmount) {
         this(carryingSocketAmount, carriedSocketAmount, storageSocketAmount, "ComponentStorage");
+        type=ComponentType.COMPONENTSTORAGE;
     }
 
     public ComponentStorage(int carryingSocketAmount, int carriedSocketAmount, int storageSocketAmount, String identifier) {
@@ -29,12 +30,17 @@ public class ComponentStorage extends DefaultComponent {
     }
 
     @Override
-    public String toString() {
+    public String getSocketString() {
         int freeSocketCount = 0;
         for (int i = 0; i < storageSockets.length; i++) {
             if (!storageSockets[i].isLinked())
                 freeSocketCount++;
         }
         return "ComponentStorage:" + (freeSocketCount > 0 ? "Free Output Slots:" + freeSocketCount:"No Free Output Slots");
+    }
+
+    @Override
+    public ComponentType getType() {
+        return type;
     }
 }

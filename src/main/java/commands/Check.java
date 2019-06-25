@@ -30,11 +30,11 @@ public class Check extends Command {
                 embedBuilder.setTitle(sender.getDisplayName(s) + "'s Drones");
                 droneStorage.listDronesAsEmbeds(embedBuilder);
                 c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
-                //TODO: Add System to select a drone and examine it further -> DroneSurfer
+                //TODO: Add System to select a drone and examine it further -> DroneBrowser
             } else if (args[2].equals("drone")) {
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setAuthor(sender);
-                embedBuilder.setTitle(droneStorage.getSelectedDrone().getIdentity());
+                embedBuilder.setTitle(droneStorage.getSelectedDrone().getIdentity(droneStorage.hasShowId()));
                 if (args.length == 3) {
                     droneStorage.getSelectedDrone().toEmbedField(embedBuilder);
                 } else if (args.length == 4) {
