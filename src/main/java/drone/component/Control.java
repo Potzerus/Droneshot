@@ -7,8 +7,8 @@ public class Control extends DefaultComponent{
     Drone parent;
 
 
-    public Control(int carryingSocketAmount, int carriedSocketAmount) {
-        super(carryingSocketAmount, carriedSocketAmount,"Control");
+    public Control(int plusSocketAmount, int minusSocketAmount) {
+        super(plusSocketAmount, minusSocketAmount,"Control");
         type=ComponentType.BRAIN;
         description="The Component responsible for Controlling the Drone";
     }

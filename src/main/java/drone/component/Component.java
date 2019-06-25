@@ -145,4 +145,11 @@ public interface Component {
     ComponentType getType();
 
     String getSocketString();
+
+    default void makeStorageSockets(int plus,int minus){
+        Socket[] plusArr=getPlusSockets();
+        for (int i = plusArr.length-1; i >= plusArr.length-plus; i--) {
+            plusArr[i].setStorage(true);
+        }
+    }
 }

@@ -60,10 +60,14 @@ public class Socket {
 
     @Override
     public String toString() {
-        return (plus?"+":"-")+(linked!=null?getLinkedComponent().getType().getName():"Disconnected");
+        return (plus?"+":"-")+(storage?"S:":"")+(linked!=null?getLinkedComponent().getType().getName():"Disconnected");
     }
 
     public void attach(Component component) {
         setLinked(component.getFreeSocket(!plus));
+    }
+
+    public void setStorage(boolean isStorage) {
+        storage=isStorage;
     }
 }

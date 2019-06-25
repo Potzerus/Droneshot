@@ -15,16 +15,16 @@ public class DefaultComponent implements Component {
     protected ComponentType type;
     protected String description = "Default Description";
 
-    public DefaultComponent(int carryingSocketAmount, int carriedSocketAmount) {
-        this(carryingSocketAmount, carriedSocketAmount, "Basic");
+    public DefaultComponent(int plusSocketAmount, int minusSocketAmount) {
+        this(plusSocketAmount, minusSocketAmount, "Basic");
         description = "This is a basic Component, Frequently used as Structure to house other Components";
     }
 
-    public DefaultComponent(int carryingSocketAmount, int carriedSocketAmount, String identifier) {
-        this.plusSockets = new Socket[carryingSocketAmount];
+    public DefaultComponent(int plusSocketAmount, int minusSocketAmount, String identifier) {
+        this.plusSockets = new Socket[plusSocketAmount];
         Component component = this;
         Arrays.setAll(plusSockets, value -> new Socket(component, true));
-        this.minusSockets = new Socket[carriedSocketAmount];
+        this.minusSockets = new Socket[minusSocketAmount];
         Arrays.setAll(minusSockets, value -> new Socket(component, false));
         this.identifier = identifier;
         type = ComponentType.STRUCTURE;

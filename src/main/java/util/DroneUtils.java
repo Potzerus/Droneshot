@@ -17,9 +17,9 @@ public class DroneUtils {
         DroneBrowser db=d.getBrowser();
         db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent(10, 4));
         Component c=db.moveTo(0);
-        c.getFreeSocket(true,false).attach(new Fabricator(0, 1, 1));
+        c.getFreeSocket(true,false).attach(new Fabricator(1, 1, 1,0));
         for (int i = 0; i < 3; i++) {
-            c.getFreeSocket(true,false).attach(new Storage(0, 1, 30));
+            c.getFreeSocket(true,false).attach(new Storage(0, 1, 5,30));
         }
         for (int i = 0; i < 4; i++) {
             c.getFreeSocket(false,false).attach(new Leg(1, 0));
@@ -34,10 +34,10 @@ public class DroneUtils {
         db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent(numFabs + numStor + 1, numLeg));
         Component c = db.moveTo(0);
         for (int i = 0; i < numFabs; i++) {
-            c.getFreeSocket(true,false).attach(new Fabricator(0, 1, 1));
+            c.getFreeSocket(true,false).attach(new Fabricator(1, 1, 1,0));
         }
         for (int i = 0; i < numStor; i++) {
-            c.getFreeSocket(true,false).attach(new Storage(0, 1, 30));
+            c.getFreeSocket(true,false).attach(new Storage(0, 1, 5,30));
         }
         for (int i = 0; i < numLeg; i++) {
             c.getFreeSocket(false,false).attach(new Leg(1, 0));
