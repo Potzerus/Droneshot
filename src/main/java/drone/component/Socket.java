@@ -2,34 +2,38 @@ package drone.component;
 
 public class Socket {
 
-    private boolean carrying;
+    private boolean plus;
     private boolean storage;
     private Socket linked;
     private final Component parent;
     //Potential Future stats like weight Limit etc
 
-    Socket(Component parent, boolean carrying) {
-        this(parent, carrying, false);
+    Socket(Component parent, boolean plus) {
+        this(parent, plus, false);
     }
 
-    Socket(Component parent, boolean carrying, boolean storage) {
+    Socket(Component parent, boolean plus, boolean storage) {
         this.parent=parent;
-        this.carrying = carrying;
+        this.plus = plus;
         this.storage = storage;
     }
 
     public void setLinked(Socket linked) {
-        assert linked.carrying!=carrying;//Only opposites may connect
+        assert linked.plus != plus;//Only opposites may connect
         this.linked = linked;
         linked.reLink(this);
+    }
+
+    public void breakLink(){
+        linked=null;
     }
 
     private void reLink(Socket linked){
         this.linked=linked;
     }
 
-    public boolean isCarrying() {
-        return carrying;
+    public boolean isPlus() {
+        return plus;
     }
 
     public boolean isStorage() {
@@ -54,5 +58,12 @@ public class Socket {
         return parent;
     }
 
+    @Override
+    public String toString() {
+        return (plus?"+":"-")+(linked!=null?getLinkedComponent().getType().getName():"Disconnected");
+    }
 
+    public void attach(Component component) {
+        setLinked(component.getFreeSocket(!plus));
+    }
 }

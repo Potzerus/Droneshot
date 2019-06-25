@@ -25,9 +25,9 @@ public class Generate extends Command {
         }
         if(args.length==2)
         if(droneStorage.isEmpty()) {
-            c.sendMessage("Generating Starting drone!");
             Drone drone = DroneUtils.buildDefaultDrone();
             droneStorage.addDrone(drone);
+            c.sendMessage("Generating Starting drone!");
         }else
             c.sendMessage("You already have a drone! add ``reset`` to the command to replace all your drones " +
                     "with a single default one (You will lose all their parts and resources!)");

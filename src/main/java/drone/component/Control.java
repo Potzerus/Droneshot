@@ -10,6 +10,7 @@ public class Control extends DefaultComponent{
     public Control(int carryingSocketAmount, int carriedSocketAmount) {
         super(carryingSocketAmount, carriedSocketAmount,"Control");
         type=ComponentType.BRAIN;
+        description="The Component responsible for Controlling the Drone";
     }
 
     public void setParent(Drone parent) {

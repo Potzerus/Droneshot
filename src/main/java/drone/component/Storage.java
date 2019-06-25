@@ -14,6 +14,7 @@ public class Storage extends DefaultComponent {
         super(carryingSocketAmount, carriedSocketAmount, "Storage");
         this.storageCapacity = storageCapacity;
         type =ComponentType.STORAGE;
+        description="Used to Store Materials";
     }
 
     /**

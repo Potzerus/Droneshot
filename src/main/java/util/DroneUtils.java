@@ -14,33 +14,35 @@ public class DroneUtils {
     public static Drone buildDefaultDrone() {
         Drone d = new Drone(new Control(0, 1));
         d.getRootComponent().setParent(d);
-        Component c = d.getRootComponent();
-        c.attach(new DefaultComponent(20, 4));
-        c = c.getSockets()[0].getLinkedComponent();
-        c.attach(new Fabricator(0, 1, 1));
+        DroneBrowser db=d.getBrowser();
+        db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent(10, 4));
+        Component c=db.moveTo(0);
+        c.getFreeSocket(true,false).attach(new Fabricator(0, 1, 1));
         for (int i = 0; i < 3; i++) {
-            c.attach(new Storage(0, 1, 30));
+            c.getFreeSocket(true,false).attach(new Storage(0, 1, 30));
         }
         for (int i = 0; i < 4; i++) {
-            c.attach(new Leg(1, 0));
+            c.getFreeSocket(false,false).attach(new Leg(1, 0));
         }
+        db.reset();
         return d;
     }
 
     public static Drone quickBuild(int numFabs, int numStor, int numLeg) {
         Drone d = new Drone(new Control(0, 1));
-        Component c = d.getRootComponent();
-        c.attach(new DefaultComponent(numFabs + numStor + 1, numLeg));
-        c = c.getSockets()[0].getLinkedComponent();
+        DroneBrowser db = d.getBrowser();
+        db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent(numFabs + numStor + 1, numLeg));
+        Component c = db.moveTo(0);
         for (int i = 0; i < numFabs; i++) {
-            c.attach(new Fabricator(0, 1, 1));
+            c.getFreeSocket(true,false).attach(new Fabricator(0, 1, 1));
         }
         for (int i = 0; i < numStor; i++) {
-            c.attach(new Storage(0, 1, 30));
+            c.getFreeSocket(true,false).attach(new Storage(0, 1, 30));
         }
         for (int i = 0; i < numLeg; i++) {
-            c.attach(new Leg(1, 0));
+            c.getFreeSocket(false,false).attach(new Leg(1, 0));
         }
+        db.reset();
         return d;
 
     }

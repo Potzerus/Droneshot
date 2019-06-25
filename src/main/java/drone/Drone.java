@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Drone implements Iterable<Component> {
     private Control rootComponent;
-    private String name="NoName";
+    private String name="New Drone";
     private int id = DroneUtils.genId();
     private Action queuedAction;
     private int[] resources = new int[ResourceType.values().length];
@@ -24,7 +24,7 @@ public class Drone implements Iterable<Component> {
 
     public Drone(Control rootComponent) {
         this.rootComponent = rootComponent;
-        browser=new DroneBrowser(rootComponent);
+        browser=new DroneBrowser(this);
     }
 
 
@@ -82,7 +82,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public void resetBrowser(){
-        browser=new DroneBrowser(rootComponent);
+        browser.reset();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class Drone implements Iterable<Component> {
     public String getComponentInfo() {
         ArrayList<String> sl = new ArrayList<>();
         for (Component c : this) {
-            sl.add(c.toString());
+            sl.add(c.getSocketString());
         }
         Object[] output = sl.toArray();
         Arrays.sort(output);

@@ -9,15 +9,48 @@ import java.util.HashSet;
 public interface Component {
 
 
-    Socket[] getSockets();
+    default Socket[] getSockets() {
+        return getSockets(true, false);
+    }
 
-    Socket[] getCarryingSockets();
+    default Socket[] getPlusSockets() {
+        return getPlusSockets(true, false);
+    }
 
+    default Socket[] getMinusSockets() {
+        return getMinusSockets(true, false);
+    }
 
-    Socket[] getCarriedSockets();
+    Socket[] getSockets(boolean getNonStorage, boolean getStorage);
+
+    Socket[] getPlusSockets(boolean getNonStorage, boolean getStorage);
+
+    Socket[] getMinusSockets(boolean getNonStorage, boolean getStorage);
 
     Action getAction();
 
+    default Socket getFreeSocket(boolean plus) {
+        Socket s = getFreeSocket(plus, false);
+        if (s == null) {
+            s = getFreeSocket(plus, true);
+        }
+        return s;
+    }
+
+    default Socket getFreeSocket(boolean plus, boolean storage) {
+        Socket[] selection;
+        if (plus)
+            selection = getPlusSockets(!storage, storage);
+        else
+            selection = getMinusSockets(!storage, storage);
+        for (Socket s : selection) {
+            if (!s.isLinked())
+                return s;
+        }
+        return null;
+    }
+
+/*
     default boolean attach(Component c) {
         if (hasFreeSocket(false) && c.hasFreeSocket(true)) {
             Socket socket1, socket2;
@@ -25,19 +58,19 @@ public interface Component {
                 int i = 0;
 
                 do {
-                    if (!(socket1 = getCarriedSockets()[i]).isLinked())
+                    if (!(socket1 = getMinusSockets()[i]).isLinked())
                         break;
                     i++;
-                } while (i < getCarriedSockets().length);
+                } while (i < getMinusSockets().length);
 
             }
             int i = 0;
 
             do {
-                if (!(socket2 = c.getCarryingSockets()[i]).isLinked())
+                if (!(socket2 = c.getPlusSockets()[i]).isLinked())
                     break;
                 i++;
-            } while (i < c.getCarryingSockets().length);
+            } while (i < c.getPlusSockets().length);
 
             socket1.setLinked(socket2);
         } else if (hasFreeSocket(true) && c.hasFreeSocket(false)) {
@@ -46,35 +79,44 @@ public interface Component {
                 int i = 0;
 
                 do {
-                    if (!(socket1 = getCarryingSockets()[i]).isLinked())
+                    if (!(socket1 = getPlusSockets()[i]).isLinked())
                         break;
                     i++;
-                } while (i < getCarryingSockets().length);
+                } while (i < getPlusSockets().length);
 
             }
             int i = 0;
 
             do {
-                if (!(socket2 = c.getCarriedSockets()[i]).isLinked())
+                if (!(socket2 = c.getMinusSockets()[i]).isLinked())
                     break;
                 i++;
-            } while (i < c.getCarriedSockets().length);
+            } while (i < c.getMinusSockets().length);
 
             socket1.setLinked(socket2);
 
-        }else
+        } else
             return false;
         return true;
     }
+*/
 
-    default boolean hasFreeSocket(boolean carrying) {
-        if (carrying)
-            for (Socket s : getCarryingSockets()) {
+    default Socket getSocketConnectingTo(Component c) {
+        for (Socket s : getSockets()) {
+            if (s.getLinkedComponent().equals(c))
+                return s;
+        }
+        return null;
+    }
+
+    default boolean hasFreeSocket(boolean plus) {
+        if (plus)
+            for (Socket s : getPlusSockets()) {
                 if (!s.isLinked())
                     return true;
             }
         else
-            for (Socket s : getCarriedSockets()) {
+            for (Socket s : getMinusSockets()) {
                 if (!s.isLinked())
                     return true;
             }
@@ -82,14 +124,14 @@ public interface Component {
     }
 
     default void stackAll(HashSet<Component> components) {
-        for (Socket s : getCarriedSockets()) {
+        for (Socket s : getMinusSockets()) {
             Component up = s.getLinkedComponent();
             if (!components.contains(up))
                 up.stackAll(components);
         }
         components.add(this);
-        for (Socket s : getCarryingSockets()) {
-            if (s.isLinked()&&s.isCarrying()) {
+        for (Socket s : getPlusSockets()) {
+            if (s.isLinked() && s.isPlus()) {
                 Component down = s.getLinkedComponent();
                 if (!components.contains(down))
                     down.stackAll(components);
@@ -101,4 +143,6 @@ public interface Component {
     String getDescription();
 
     ComponentType getType();
+
+    String getSocketString();
 }

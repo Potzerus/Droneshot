@@ -8,6 +8,7 @@ public class ComponentStorage extends DefaultComponent {
     public ComponentStorage(int carryingSocketAmount, int carriedSocketAmount, int storageSocketAmount) {
         this(carryingSocketAmount, carriedSocketAmount, storageSocketAmount, "ComponentStorage");
         type=ComponentType.COMPONENTSTORAGE;
+        description="This is a Component Storage Module, used to Store Inactive Components";
     }
 
     public ComponentStorage(int carryingSocketAmount, int carriedSocketAmount, int storageSocketAmount, String identifier) {
