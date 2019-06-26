@@ -41,7 +41,8 @@ public class Center {
                             d.resetQueuedAction();
                         }
                         d.getRunnable().run();
-                        d.setRunnable(()->{});
+                        d.setRunnable(() -> {
+                        });
 
                     }
                 }
@@ -49,34 +50,36 @@ public class Center {
         }, 1, 1, TimeUnit.MINUTES);
 
         api.addMessageCreateListener(event -> {
-            System.out.println(event.getMessageContent());
-            if (event.getMessageContent().startsWith(prefix)) {
-                String[] argus = event.getMessageContent().split(" ");
+            if (!event.getMessageAuthor().isYourself()) {
+                System.out.println(event.getMessageContent());
+                if (event.getMessageContent().startsWith(prefix)) {
+                    String[] argus = event.getMessageContent().split(" ");
 
-                //Console Info
-                for (int i = 0; i < argus.length; i++) {
-                    System.out.println(i + ": " + argus[i]);
-                }
-                System.out.println();
+                    //Console Info
+                    for (int i = 0; i < argus.length; i++) {
+                        System.out.println(i + ": " + argus[i]);
+                    }
+                    System.out.println();
 
-                if (event.getMessageAuthor().asUser().isPresent() && event.getServer().isPresent()
+                    if (event.getMessageAuthor().asUser().isPresent() && event.getServer().isPresent()
 
-                        && (Utils.hasPermission(event.getMessageAuthor().asUser().get(), event.getServer().get(), PermissionType.MANAGE_CHANNELS, PermissionType.ADMINISTRATOR)
-                        || Arrays.asList(botAuthors).contains(event.getMessageAuthor().getId())
-                        || event.getServer().get().isAdmin(event.getMessageAuthor().asUser().get())
-                        || event.getServer().get().isOwner(event.getMessageAuthor().asUser().get()))
+                            && (Utils.hasPermission(event.getMessageAuthor().asUser().get(), event.getServer().get(), PermissionType.MANAGE_CHANNELS, PermissionType.ADMINISTRATOR)
+                            || Arrays.asList(botAuthors).contains(event.getMessageAuthor().getId())
+                            || event.getServer().get().isAdmin(event.getMessageAuthor().asUser().get())
+                            || event.getServer().get().isOwner(event.getMessageAuthor().asUser().get()))
 
-                        && argus.length == 3
-                        && argus[1].equals("enable")
-                        && argus[2].equals("drone")) {
-                    long serverId = event.getServer().get().getId();
-                    ServerStorage ss = state.getServer(serverId);
-                    if (!ss.hasActiveModule("drone")) {
-                        ss.addModule(new DroneModule("d!", api, event.getServer().get(), state));
-                        event.getChannel().sendMessage("Module activated!");
-                    } else
-                        event.getChannel().sendMessage("This Module is already Active!");
+                            && argus.length == 3
+                            && argus[1].equals("enable")
+                            && argus[2].equals("drone")) {
+                        long serverId = event.getServer().get().getId();
+                        ServerStorage ss = state.getServer(serverId);
+                        if (!ss.hasActiveModule("drone")) {
+                            ss.addModule(new DroneModule("d!", api, event.getServer().get(), state));
+                            event.getChannel().sendMessage("Module activated!");
+                        } else
+                            event.getChannel().sendMessage("This Module is already Active!");
 
+                    }
                 }
             }
         });

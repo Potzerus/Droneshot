@@ -17,27 +17,20 @@ public class ActionList extends Command {
         super(identifier);
     }
 
-    public ActionList(String identifier, String description){
+    public ActionList(String identifier, String description) {
         super(identifier, description);
     }
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
-        try {
-            DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
+        DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
+        DroneUtils.checkStorage(c,ds);
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setAuthor(sender);
+        embedBuilder.setTitle("Available actions with: " + ds.getSelectedDrone().getIdentity());
+        ds.getSelectedDrone().listActionsAsEmbeds(embedBuilder);
 
-            if (ds.isEmpty()) {
-                c.sendMessage("You don't have any drones!");
-            } else {
-                EmbedBuilder embedBuilder = new EmbedBuilder();
-                embedBuilder.setAuthor(sender);
-                embedBuilder.setTitle("Available actions with: " + ds.getSelectedDrone().getIdentity());
-                ds.getSelectedDrone().listActionsAsEmbeds(embedBuilder);
-
-                c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
-            }
-        }catch (CommandFuckedUpError e){
-            e.printStackTrace();
-        }
+        c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
     }
 }
+

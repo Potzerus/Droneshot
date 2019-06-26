@@ -58,16 +58,16 @@ public class DroneUtils {
         return droneStorage;
     }
 
-    public static void checkStorage(TextChannel c, DroneStorage droneStorage) throws CommandFuckedUpError {
-        if (droneStorage.isEmpty()) {
-            throw new CommandFuckedUpError("You don't have any Drones!", c);
-        }
-    }
-
     public static Drone getSelectedDrone(User sender,TextChannel c,CommandMap commandMap)throws CommandFuckedUpError {
         DroneStorage ds=getStorageOrWarnUser(sender,c,commandMap);
         checkStorage(c,ds);
         return ds.getSelectedDrone();
+    }
+
+    public static void checkStorage(TextChannel c, DroneStorage droneStorage) throws CommandFuckedUpError {
+        if (droneStorage.isEmpty()) {
+            throw new CommandFuckedUpError("You don't have any Drones!", c);
+        }
     }
 
     public static int genId() {
