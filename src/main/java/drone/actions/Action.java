@@ -1,6 +1,7 @@
 package drone.actions;
 
 import drone.Drone;
+import org.javacord.api.entity.channel.TextChannel;
 
 public interface Action {
 
@@ -9,4 +10,8 @@ public interface Action {
     String getDescription();
 
     boolean repeats();
+
+    default void scream(Drone d, TextChannel c){
+        c.sendMessage(getDescription());
+    }
 }

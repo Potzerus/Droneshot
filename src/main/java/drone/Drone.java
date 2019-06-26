@@ -1,6 +1,7 @@
 package drone;
 
 import drone.actions.Action;
+import drone.actions.Idle;
 import drone.component.Component;
 import drone.component.ComponentType;
 import drone.component.Control;
@@ -16,6 +17,7 @@ public class Drone implements Iterable<Component> {
     private String name="New Drone";
     private int id = DroneUtils.genId();
     private Action queuedAction;
+    private Runnable runnable;
     private int[] resources = new int[ResourceType.values().length];
     private DroneBrowser browser;
     private HashSet<Action> possibleActions;
@@ -24,6 +26,8 @@ public class Drone implements Iterable<Component> {
     public Drone(Control rootComponent) {
         this.rootComponent = rootComponent;
         browser=new DroneBrowser(this);
+        queuedAction=new Idle();
+        runnable=()->queuedAction.run(this);
     }
 
 
@@ -33,6 +37,22 @@ public class Drone implements Iterable<Component> {
 
     public String getName() {
         return name;
+    }
+
+    public Action getQueuedAction() {
+        return queuedAction;
+    }
+
+    public void resetQueuedAction(){
+        queuedAction=new Idle();
+    }
+
+    public Runnable getRunnable() {
+        return runnable;
+    }
+
+    public void setRunnable(Runnable r){
+        runnable=r;
     }
 
     public Action[] getActions() {
@@ -153,5 +173,6 @@ public class Drone implements Iterable<Component> {
     public void toEmbedField(EmbedBuilder embedBuilder) {
         embedBuilder.addField("Components:", getComponentInfo());
     }
+
 
 }

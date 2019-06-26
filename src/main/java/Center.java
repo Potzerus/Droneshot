@@ -1,4 +1,8 @@
+import drone.Drone;
+import drone.DroneStorage;
+import drone.actions.Action;
 import org.javacord.api.entity.permission.PermissionType;
+import potz.utils.database.Char;
 import potz.utils.database.ServerStorage;
 import potz.utils.database.State;
 import org.javacord.api.DiscordApi;
@@ -6,6 +10,10 @@ import org.javacord.api.DiscordApiBuilder;
 import potz.Utils;
 
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Center {
     private static DiscordApi api;
@@ -13,10 +21,30 @@ public class Center {
     private static String prefix = "droneshot";
     private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L};
     private static Long[] defaultServers = new Long[]{532907700326105108L, 377546781732503553L};
+    private static ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
 
     public static void main(String[] args) {
         api = new DiscordApiBuilder().setToken(Utils.getToken()).login().join();
+
+
+        service.scheduleAtFixedRate(() -> {
+            //This code block will be executed immediately, and then again every 60 minutes
+            for (ServerStorage ss : state) {
+                for (Char character : ss) {
+                    DroneStorage ds = (DroneStorage) character.getOrAddStat("droneStorage", new DroneStorage(character));
+                    for (Drone d : ds) {
+                        Action a = d.getQueuedAction();
+                        a.run(d);
+                        if (!a.repeats()) {
+                            d.resetQueuedAction();
+                        }
+                        Runnable runnable = d.getRunnable();
+
+                    }
+                }
+            }
+        }, 1, 1, TimeUnit.MINUTES);
 
         api.addMessageCreateListener(event -> {
             System.out.println(event.getMessageContent());
@@ -32,7 +60,9 @@ public class Center {
                 if (event.getMessageAuthor().asUser().isPresent() && event.getServer().isPresent()
 
                         && (Utils.hasPermission(event.getMessageAuthor().asUser().get(), event.getServer().get(), PermissionType.MANAGE_CHANNELS, PermissionType.ADMINISTRATOR)
-                        || Arrays.asList(botAuthors).contains(event.getMessageAuthor().getId()))
+                        || Arrays.asList(botAuthors).contains(event.getMessageAuthor().getId())
+                        || event.getServer().get().isAdmin(event.getMessageAuthor().asUser().get())
+                        || event.getServer().get().isOwner(event.getMessageAuthor().asUser().get()))
 
                         && argus.length == 3
                         && argus[1].equals("enable")

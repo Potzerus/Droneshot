@@ -9,7 +9,6 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.util.logging.ExceptionLogger;
 import potz.utils.commands.Command;
-import util.CommandFuckedUpException;
 import drone.DroneBrowser;
 import util.DroneUtils;
 
@@ -21,7 +20,6 @@ public class Browse extends Command {
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
-        try {
             DroneStorage ds=DroneUtils.getStorageOrWarnUser(sender,c,commandMap);
             Drone d = DroneUtils.getSelectedDrone(sender, c, commandMap);
             DroneBrowser db = d.getBrowser();
@@ -58,7 +56,5 @@ public class Browse extends Command {
                 }
             }
             c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
-        } catch (CommandFuckedUpException e) {
-        }
     }
 }

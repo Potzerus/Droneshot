@@ -16,7 +16,8 @@ public class DroneModule extends Module {
                 new Rename("rename"),
                 new Select("select"),
                 new Browse("browse"),
-                new ToggleId("toggleid")
+                new ToggleId("toggleid"),
+                new Scream("scream")
         );
     }
 

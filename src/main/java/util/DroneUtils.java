@@ -49,22 +49,22 @@ public class DroneUtils {
 
     }
 
-    public static DroneStorage getStorageOrWarnUser(User sender, TextChannel c, CommandMap commandMap) throws CommandFuckedUpException {
+    public static DroneStorage getStorageOrWarnUser(User sender, TextChannel c, CommandMap commandMap) throws CommandFuckedUpError {
         Char character = commandMap.getServerStorage().getOrAddPlayer(sender.getId());
         DroneStorage droneStorage = DroneStorage.getStorage(character);
         if (droneStorage == null) {
-            throw new CommandFuckedUpException("You don't have any Drones, please type ``" + commandMap.getModule().getPrefix() + " generate`` to get started!",c);
+            throw new CommandFuckedUpError("You don't have any Drones, please type ``" + commandMap.getModule().getPrefix() + " generate`` to get started!",c);
         }
         return droneStorage;
     }
 
-    public static void checkStorage(TextChannel c, DroneStorage droneStorage) throws CommandFuckedUpException {
+    public static void checkStorage(TextChannel c, DroneStorage droneStorage) throws CommandFuckedUpError {
         if (droneStorage.isEmpty()) {
-            throw new CommandFuckedUpException("You don't have any Drones!", c);
+            throw new CommandFuckedUpError("You don't have any Drones!", c);
         }
     }
 
-    public static Drone getSelectedDrone(User sender,TextChannel c,CommandMap commandMap)throws CommandFuckedUpException{
+    public static Drone getSelectedDrone(User sender,TextChannel c,CommandMap commandMap)throws CommandFuckedUpError {
         DroneStorage ds=getStorageOrWarnUser(sender,c,commandMap);
         checkStorage(c,ds);
         return ds.getSelectedDrone();

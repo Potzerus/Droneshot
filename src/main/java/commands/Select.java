@@ -7,7 +7,6 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import potz.utils.commands.Command;
-import util.CommandFuckedUpException;
 import util.DroneUtils;
 
 public class Select extends Command {
@@ -18,7 +17,6 @@ public class Select extends Command {
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
-        try {
             DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
             if (ds != null) {
                 if (args.length == 2) {
@@ -43,7 +41,5 @@ public class Select extends Command {
 
                 }
             }
-        } catch (CommandFuckedUpException e) {
-        }
     }
 }

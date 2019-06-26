@@ -5,7 +5,6 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import potz.utils.commands.Command;
-import util.CommandFuckedUpException;
 import util.DroneUtils;
 
 public class Rename extends Command {
@@ -16,7 +15,6 @@ public class Rename extends Command {
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
-        try {
             DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
             DroneUtils.checkStorage(c,ds);
             StringBuilder sb=new StringBuilder();
@@ -26,8 +24,5 @@ public class Rename extends Command {
             }
             ds.getSelectedDrone().setName(sb.toString());
             c.sendMessage("Successfully renamed "+ds.getSelectedDrone().getIdentity(ds.hasShowId()));
-        } catch (CommandFuckedUpException e) {
-
-        }
     }
 }
