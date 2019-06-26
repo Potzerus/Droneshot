@@ -12,6 +12,6 @@ public interface Action {
     boolean repeats();
 
     default void scream(Drone d, TextChannel c){
-        c.sendMessage(getDescription());
+        c.sendMessage("I have no mouth but i must Scream");
     }
 }

@@ -27,6 +27,7 @@ public class Center {
     public static void main(String[] args) {
         api = new DiscordApiBuilder().setToken(Utils.getToken()).login().join();
 
+        api.updateActivity("Type d! commands to see available commands");
 
         service.scheduleAtFixedRate(() -> {
             //This code block will be executed immediately, and then again every 60 minutes
@@ -39,7 +40,8 @@ public class Center {
                         if (!a.repeats()) {
                             d.resetQueuedAction();
                         }
-                        Runnable runnable = d.getRunnable();
+                        d.getRunnable().run();
+                        d.setRunnable(()->{});
 
                     }
                 }
