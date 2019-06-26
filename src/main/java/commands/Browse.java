@@ -20,41 +20,43 @@ public class Browse extends Command {
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
-            DroneStorage ds=DroneUtils.getStorageOrWarnUser(sender,c,commandMap);
-            Drone d = DroneUtils.getSelectedDrone(sender, c, commandMap);
-            DroneBrowser db = d.getBrowser();
-            EmbedBuilder embedBuilder=new EmbedBuilder();
-            if (args.length == 2) {
-                embedBuilder.setTitle(d.getIdentity(ds.hasShowId()));
-                embedBuilder.addField(db.getCurrent().getIdentifier()+"("+db.getCurrent().getIdentifier()+")",db.getCurrent().getDescription());
-            }else if(args.length >=3){
-                try{
-                Component comp=db.moveTo(Integer.parseInt(args[2]));
+        DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
+        Drone d = DroneUtils.getSelectedDrone(sender, c, commandMap);
+        DroneBrowser db = d.getBrowser();
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        if (args.length == 2) {
+            embedBuilder.setTitle(d.getIdentity(ds.hasShowId()));
+            embedBuilder.addField(db.getCurrent().getIdentifier() + "(" + db.getCurrent().getIdentifier() + ")", db.getCurrent().getDescription());
+        } else if (args.length >= 3) {
+            try {
+                Component comp = db.moveTo(Integer.parseInt(args[2]));
                 db.toEmbed(embedBuilder);
-            }catch(NumberFormatException e){
-                    switch(args[2]){
+            } catch (NumberFormatException e) {
+                switch (args[2]) {
 /*
                         case "list":
                             embedBuilder.addField("Accessible Components:",db.getAccessableComponentString());
                             break;
 */
-                        case "reset":
-                            db.reset();
-                            break;
-                        case "swap":
-                            if(args.length==3) {
-                                c.sendMessage("you need to specfiy which Socket you want to swap with!");
-                                return;
-                            }else
+                    case "reset":
+                        db.reset();
+                        break;
+                    case "swap":
+                        if (args.length == 3) {
+                            c.sendMessage("you need to specfiy which Socket you want to swap with!");
+                            return;
+                        } else
                             db.swap(Integer.parseInt(args[3]));
-                            c.sendMessage("Successfully Swapped Components!");
-                            break;
-                        case "sockets":
-                            db.toEmbed(embedBuilder,true);
-                            break;
-                    }
+                        c.sendMessage("Successfully Swapped Components!");
+                        break;
+                    case "sockets":
+                        db.toEmbed(embedBuilder, true);
+                        break;
+                    default:
+                        return;
                 }
             }
-            c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
+        }
+        c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());
     }
 }
