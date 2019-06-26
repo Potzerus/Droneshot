@@ -7,4 +7,6 @@ public interface Action {
     void run(Drone d);
 
     String getDescription();
+
+    boolean repeats();
 }

@@ -14,4 +14,9 @@ public class Idle implements Action{
     public String getDescription() {
         return "Does Nothing";
     }
+
+    @Override
+    public boolean repeats() {
+        return true;
+    }
 }
