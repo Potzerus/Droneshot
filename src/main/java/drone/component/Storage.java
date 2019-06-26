@@ -1,5 +1,6 @@
 package drone.component;
 
+import drone.actions.Action;
 import map.ResourceType;
 
 import java.util.Arrays;
@@ -13,8 +14,8 @@ public class Storage extends DefaultComponent {
     private int maxStoredTypes;
 
 
-    public Storage(int plusSocketAmount, int minusSocketAmount, int maxStoredTypes, int storageCapacity) {
-        super(plusSocketAmount, minusSocketAmount, "Storage");
+    public Storage(String identifier, Action action,int plusSocketAmount, int minusSocketAmount, int maxStoredTypes, int storageCapacity) {
+        super(identifier,action,plusSocketAmount, minusSocketAmount);
         this.storageCapacity = storageCapacity;
         type = ComponentType.STORAGE;
         description = "Used to Store Materials";

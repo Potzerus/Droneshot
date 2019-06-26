@@ -60,7 +60,7 @@ public class Socket {
 
     @Override
     public String toString() {
-        return (plus?"+":"-")+(storage?"S:":"")+(linked!=null?getLinkedComponent().getType().getName():"Disconnected");
+        return (plus?"+":"-")+(storage?"S:":"")+(linked!=null?getLinkedComponent().getIdentifier()+"("+getLinkedComponent().getType().getName()+")":"Disconnected");
     }
 
     public void attach(Component component) {

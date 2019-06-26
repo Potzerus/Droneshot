@@ -1,4 +1,4 @@
-package util;
+package drone;
 
 import drone.Drone;
 import drone.component.Component;
@@ -92,16 +92,15 @@ public class DroneBrowser {
         }
         if(held!=null)
             held.breakLink();
-        reset();
 
     }
 
     public void toEmbed(EmbedBuilder embedBuilder, boolean displaySockets) {
-        embedBuilder.addField(current.getType().getName(), current.getDescription());
+        embedBuilder.addField(current.getIdentifier()+"("+current.getType().getName()+")", current.getDescription());
         if(displaySockets)
             embedBuilder.addField("Sockets:",current.getSocketString());
         if (held != null)
-            embedBuilder.addField("Currently Holding "+(held.isPlus()?"+":"-"), held.getParent().getType().getName());
+            embedBuilder.addField("Currently Holding "+(held.isPlus()?"+":"-"), held.getParent().getIdentifier()+"("+held.getParent().getType().getName()+")");
     }
 
     public void toEmbed(EmbedBuilder embedBuilder){

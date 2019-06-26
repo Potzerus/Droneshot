@@ -10,7 +10,7 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.util.logging.ExceptionLogger;
 import potz.utils.commands.Command;
 import util.CommandFuckedUpException;
-import util.DroneBrowser;
+import drone.DroneBrowser;
 import util.DroneUtils;
 
 public class Browse extends Command {
@@ -28,7 +28,7 @@ public class Browse extends Command {
             EmbedBuilder embedBuilder=new EmbedBuilder();
             if (args.length == 2) {
                 embedBuilder.setTitle(d.getIdentity(ds.hasShowId()));
-                embedBuilder.addField(db.getCurrent().getType().getName(),db.getCurrent().getDescription());
+                embedBuilder.addField(db.getCurrent().getIdentifier()+"("+db.getCurrent().getIdentifier()+")",db.getCurrent().getDescription());
             }else if(args.length >=3){
                 try{
                 Component comp=db.moveTo(Integer.parseInt(args[2]));

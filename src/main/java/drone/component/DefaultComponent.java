@@ -11,23 +11,20 @@ public class DefaultComponent implements Component {
 
     protected Socket[] plusSockets, minusSockets;
     protected Action action;
-    protected final String identifier;
+    protected String identifier;
     protected ComponentType type;
-    protected String description = "Default Description";
+    protected String description;
 
-    public DefaultComponent(int plusSocketAmount, int minusSocketAmount) {
-        this(plusSocketAmount, minusSocketAmount, "Basic");
-        description = "This is a basic Component, Frequently used as Structure to house other Components";
-    }
-
-    public DefaultComponent(int plusSocketAmount, int minusSocketAmount, String identifier) {
-        this.plusSockets = new Socket[plusSocketAmount];
+    public DefaultComponent(String identifier,Action action,int plusSocketAmount, int minusSocketAmount ) {
+        this.identifier = identifier;
+        this.action=action;
         Component component = this;
+        this.plusSockets = new Socket[plusSocketAmount];
         Arrays.setAll(plusSockets, value -> new Socket(component, true));
         this.minusSockets = new Socket[minusSocketAmount];
         Arrays.setAll(minusSockets, value -> new Socket(component, false));
-        this.identifier = identifier;
         type = ComponentType.STRUCTURE;
+        description = "This is a basic Component, Frequently used as Structure to house other Components";
     }
 
 
@@ -136,6 +133,11 @@ public class DefaultComponent implements Component {
             sb.append("\n");
         }
         return identifier + ":\n" + sb.toString();
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override

@@ -80,7 +80,7 @@ public class DroneStorage implements Iterable<Drone> {
 
     public void listDronesAsEmbeds(EmbedBuilder embedBuilder) {
         for (Drone d : drones) {
-            embedBuilder.addField(d.getIdentity(showId),d.getDroneInfo());
+            embedBuilder.addField(d.getIdentity(showId)+(d.equals(selectedDrone)?"(selected)":""),d.getDroneInfo());
         }
     }
 

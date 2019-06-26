@@ -7,8 +7,6 @@ import drone.component.Control;
 import drone.component.Storage;
 import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
-import potz.utils.database.Char;
-import util.DroneBrowser;
 import util.DroneUtils;
 
 import java.util.*;
@@ -20,6 +18,7 @@ public class Drone implements Iterable<Component> {
     private Action queuedAction;
     private int[] resources = new int[ResourceType.values().length];
     private DroneBrowser browser;
+    private HashSet<Action> possibleActions;
 
 
     public Drone(Control rootComponent) {
@@ -74,6 +73,13 @@ public class Drone implements Iterable<Component> {
                     resources[i] += addition[i];
                 }
             }
+        }
+    }
+
+    public void recalcPossibleActions(){
+        possibleActions.clear();
+        for (Component c : this) {
+            possibleActions.add(c.getAction());
         }
     }
 

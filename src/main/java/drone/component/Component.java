@@ -152,4 +152,6 @@ public interface Component {
             plusArr[i].setStorage(true);
         }
     }
+
+    String getIdentifier();
 }

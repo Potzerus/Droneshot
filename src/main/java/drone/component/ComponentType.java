@@ -2,7 +2,7 @@ package drone.component;
 
 public enum ComponentType {
     STRUCTURE("Structure"),
-    BRAIN("Brain"),
+    CONTROL("Control"),
     STORAGE("Storage"),
     COMPONENTSTORAGE("ComponentStorage"),
     FABRICATOR("Fabricator"),
