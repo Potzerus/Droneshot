@@ -11,6 +11,10 @@ public class Test extends Command {
         super(identifier);
     }
 
+    public Test(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
         c.sendMessage("Test Successful");

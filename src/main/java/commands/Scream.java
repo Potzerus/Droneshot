@@ -12,6 +12,10 @@ public class Scream extends Command {
         super(identifier);
     }
 
+    public Scream(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
             Drone d = DroneUtils.getSelectedDrone(sender, c, commandMap);

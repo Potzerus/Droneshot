@@ -15,6 +15,10 @@ public class Generate extends Command {
         super(identifier);
     }
 
+    public Generate(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
         Char character=commandMap.getServerStorage().getOrAddPlayer(sender.getId());

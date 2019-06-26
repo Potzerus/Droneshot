@@ -13,6 +13,10 @@ public class Rename extends Command {
         super(identifier);
     }
 
+    public Rename(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
             DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);

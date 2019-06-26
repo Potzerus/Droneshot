@@ -16,6 +16,10 @@ public class Check extends Command {
         super(identifier);
     }
 
+    public Check(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
             DroneStorage droneStorage = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);

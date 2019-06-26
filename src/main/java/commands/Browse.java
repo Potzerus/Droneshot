@@ -18,6 +18,10 @@ public class Browse extends Command {
         super(identifier);
     }
 
+    public Browse(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
         DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);

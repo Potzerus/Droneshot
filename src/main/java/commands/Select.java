@@ -15,6 +15,10 @@ public class Select extends Command {
         super(identifier);
     }
 
+    public Select(String identifier,String description) {
+        super(identifier,description);
+    }
+
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
             DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
