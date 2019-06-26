@@ -1,6 +1,6 @@
 package map;
 
-import javafx.scene.transform.MatrixType;
+import drone.Drone;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -10,20 +10,20 @@ public class TileMap {
 
     private Tile[][] tileMap;
     private int width, height;
-//    private ArrayList<Drone> drones;                  //todo add drone to the map
+    private ArrayList<Drone> drones;
 
     public TileMap(int width, int heigth){
         this.tileMap = new Tile[heigth][width];
         this.width = width;
         this.height = heigth;
-//        this.drones = new ArrayList<Drone>();
+        this.drones = new ArrayList<>();
     }
 
     public TileMap(Tile[][] tiles){
         this.tileMap = tiles;
         this.width = tiles[1].length;
         this.height = tiles.length;
-//        this.drones = new ArrayList<>();
+        this.drones = new ArrayList<>();
     }
 
     public void setTile(Tile input, int x, int y){
@@ -309,18 +309,18 @@ public class TileMap {
         return (Tile[]) tiles.toArray();
     }
 
-/*    public void addDrone(Drone drone){
-        this.drones.add(drone);
+    public void fillNullTiles(){
+       for (Tile[] tiles : tileMap){
+           for (Tile tile : tiles){
+               if (tile == null){
+                   tile = new Tile(ResourceType.NONE, 0);
+               }
+           }
+       }
     }
-*/
-/*
-    public Drone getDrone(Drone drone){
-        return drones.get(drone);
-    }
-*/
-/*
+
     public int getDroneAmount(){
         return drones.size();
     }
-*/
+
 }

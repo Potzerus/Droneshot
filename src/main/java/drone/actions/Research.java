@@ -1,5 +1,23 @@
 package drone.actions;
 
-public interface Research extends Action{
-        //TODO:Model how its supposed to work
+import drone.Drone;
+
+public class Research implements Action{
+
+
+    @Override
+    public void run(Drone d) {
+
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public boolean repeats() {
+            return false;
+    }
+    //TODO:Model how its supposed to work
 }

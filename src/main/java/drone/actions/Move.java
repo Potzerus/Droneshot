@@ -1,7 +1,27 @@
 package drone.actions;
 
-public interface Move extends Action {
+import drone.Drone;
 
-    //Todo:Replace int with Direction Enum
-    boolean setupAction(int moveAmount,int direction);
+public class Move implements Action {
+
+    int maxAmount;
+
+    public Move(int maxAmount){
+        this.maxAmount = maxAmount;
+    }
+
+    @Override
+    public void run(Drone d) {
+
+    }
+
+    @Override
+    public String getDescription() {
+        return "move";
+    }
+
+    @Override
+    public boolean repeats() {
+        return false;
+    }
 }

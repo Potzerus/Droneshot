@@ -23,7 +23,9 @@ public class DroneModule extends Module {
                 new ToggleId("toggleid",
                         "Toggles wether you will see your Drone's Id's or not"),
                 new Scream("scream",
-                        "Testing Method please ignore")
+                        "Testing Method please ignore"),
+                new CommandsList("commands", "Shows the list of bot commands"),
+                new ActionList("actions", "Shows all available actions with the currently selected drone")
         );
     }
 

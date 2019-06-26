@@ -44,7 +44,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public void resetQueuedAction(){
-        queuedAction=new Idle();
+        queuedAction = new Idle();
     }
 
     public Runnable getRunnable() {
@@ -174,5 +174,10 @@ public class Drone implements Iterable<Component> {
         embedBuilder.addField("Components:", getComponentInfo());
     }
 
+    public void listActionsAsEmbeds(EmbedBuilder embedBuilder){
+        for (Action action : getActions()){
+            embedBuilder.addField(action.getDescription(), " -1");
+        }
+    }
 
 }

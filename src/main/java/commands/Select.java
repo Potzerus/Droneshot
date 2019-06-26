@@ -7,6 +7,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import potz.utils.commands.Command;
+import util.CommandFuckedUpError;
 import util.DroneUtils;
 
 public class Select extends Command {
@@ -21,6 +22,8 @@ public class Select extends Command {
 
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
+
+        try {
             DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
             if (ds != null) {
                 if (args.length == 2) {
@@ -28,22 +31,18 @@ public class Select extends Command {
                     EmbedBuilder embedBuilder = new EmbedBuilder();
                     ds.listDronesAsEmbeds(embedBuilder);
                     c.sendMessage(embedBuilder);
-                } else if (args.length >= 3) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 2; i < args.length; i++) {
-                        sb.append(args[i]);
-                        sb.append(" ");
-                    }
-
-                    Drone newSelection = ds.getDrone(sb.toString());
+                } else if (args.length == 3) {
+                    Drone newSelection = ds.getDrone(args[2]);
                     if (newSelection == null) {
                         c.sendMessage("You do now own a drone with this Name or Id");
                         return;
                     }
                     ds.selectDrone(newSelection);
-                    c.sendMessage("Successfully made " + newSelection.getIdentity(ds.hasShowId()) + " the new Selected Drone!");
-
+                    c.sendMessage("Successfully made " + newSelection.getIdentity() + " the new Selected Drone!");
                 }
             }
+        }catch (CommandFuckedUpError e){
+            c.sendMessage("You do not have any available drones!");
+        }
     }
 }

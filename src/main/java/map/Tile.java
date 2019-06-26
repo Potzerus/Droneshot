@@ -56,4 +56,15 @@ public class Tile {
 
         return tile.getResource().equals(this.getResource()) && tile.getResourceAmount() == this.resourceAmount;
     }
+
+    public int extractResources(int amount){
+        if (resourceAmount - amount < 0){
+            int resources = resourceAmount;
+            this.resourceAmount = 0;
+            return resources;
+        }else {
+            resourceAmount -= amount;
+            return amount;
+        }
+    }
 }

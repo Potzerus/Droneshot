@@ -84,6 +84,7 @@ public class DroneStorage implements Iterable<Drone> {
         }
     }
 
+
     public void reset() {
         drones.clear();
     }
