@@ -14,10 +14,6 @@ import util.DroneUtils;
 
 public class Browse extends Command {
 
-    public Browse(String identifier) {
-        super(identifier);
-    }
-
     public Browse(String identifier,String description) {
         super(identifier,description);
     }

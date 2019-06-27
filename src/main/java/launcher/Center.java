@@ -21,7 +21,7 @@ public class Center {
     private static DiscordApi api;
     private static State state = new State();
     private static String prefix = "droneshot";
-    private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L};
+    private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L,215541019138064384L};
     private static Long[] defaultServers = new Long[]{532907700326105108L, 377546781732503553L};
     private static ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 

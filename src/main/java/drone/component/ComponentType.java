@@ -1,15 +1,15 @@
 package drone.component;
 
 public enum ComponentType {
-    STRUCTURE("Structure"),
-    CONTROL("Control"),
-    STORAGE("Storage"),
-    COMPONENTSTORAGE("ComponentStorage"),
-    FABRICATOR("Fabricator"),
-    MOVEMENT("Movement");
+    STRUCTURE("Structure",DefaultComponent.class),
+    CONTROL("Control",Control.class),
+    STORAGE("Storage",Storage.class),
+    COMPONENTSTORAGE("ComponentStorage",ComponentStorage.class),
+    FABRICATOR("Fabricator",Fabricator.class),
+    MOVEMENT("Movement",Leg.class);
 
     private String name;
-    ComponentType(String name){
+    ComponentType(String name,Class c){
         this.name=name;
     }
 
