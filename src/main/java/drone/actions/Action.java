@@ -11,6 +11,8 @@ public interface Action {
 
     boolean repeats();
 
+    String getName();
+
     default void scream(Drone d, TextChannel c) {
         c.sendMessage("I have no mouth but I must Scream");
     }
@@ -31,6 +33,11 @@ public interface Action {
             @Override
             public boolean repeats() {
                 return true;
+            }
+
+            @Override
+            public String getName() {
+                return "Idle";
             }
         };
     }

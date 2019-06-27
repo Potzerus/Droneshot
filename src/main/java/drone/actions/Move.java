@@ -3,6 +3,7 @@ package drone.actions;
 public class Move implements Action {
 
     int maxAmount;
+    private final String name="Move";
 
     public Move(int maxAmount){
         this.maxAmount = maxAmount;
@@ -21,5 +22,10 @@ public class Move implements Action {
     @Override
     public boolean repeats() {
         return false;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

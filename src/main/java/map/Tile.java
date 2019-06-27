@@ -68,7 +68,12 @@ public class Tile {
         }
     }
 
+    //TODO: Implement these please Valayna senpai
     public int[] extractResources(int[] expectedResources) {
         return new int[0];
+    }
+
+    public void addResources(int[] resources) {
+
     }
 }

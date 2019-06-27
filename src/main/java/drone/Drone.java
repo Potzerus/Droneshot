@@ -175,15 +175,14 @@ public class Drone implements Iterable<Component> {
 
     public void listActionsAsEmbeds(EmbedBuilder embedBuilder){
         for (Action action : getActions()){
-            embedBuilder.addField(action.getDescription(), " -1");
+            embedBuilder.addField(action.getName(), action.getDescription());
         }
     }
 
-    public int[] addResources(int[] addedResources) {
+    public void addResources(int[] addedResources) {
         for (Component c : this) {
             if(c instanceof Storage)
                 ((Storage) c).fillOrEmptyTank(addedResources);
         }
-        return addedResources;
     }
 }
