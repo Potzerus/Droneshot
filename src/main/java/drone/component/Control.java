@@ -14,6 +14,11 @@ public class Control extends DefaultComponent{
         description="The Component responsible for Controlling the Drone";
     }
 
+    public Control(){
+        super();
+        type=ComponentType.CONTROL;
+    }
+
     public void setParent(Drone parent) {
         this.parent = parent;
     }

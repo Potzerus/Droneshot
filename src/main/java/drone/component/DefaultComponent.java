@@ -12,20 +12,29 @@ public class DefaultComponent implements Component {
 
     protected Socket[] plusSockets, minusSockets;
     protected Action action;
-    protected String identifier;
+    protected String identifier="Newly Constructed Component";
     protected ComponentType type;
-    protected String description;
+    protected String description="This is a basic Component, Frequently used as Structure to house other Components";
 
     public DefaultComponent(String identifier,Action action,int plusSocketAmount, int minusSocketAmount ) {
         this.identifier = identifier;
         this.action=action;
+        genSockets(plusSocketAmount,minusSocketAmount);
+        type = ComponentType.STRUCTURE;
+    }
+
+    public DefaultComponent(){
+        type=ComponentType.STRUCTURE;
+    }
+
+    @Override
+    public void genSockets(int plusSocketAmount, int minusSocketAmount) {
         Component component = this;
         this.plusSockets = new Socket[plusSocketAmount];
         Arrays.setAll(plusSockets, value -> new Socket(component, true));
         this.minusSockets = new Socket[minusSocketAmount];
         Arrays.setAll(minusSockets, value -> new Socket(component, false));
-        type = ComponentType.STRUCTURE;
-        description = "This is a basic Component, Frequently used as Structure to house other Components";
+
     }
 
 
@@ -111,6 +120,11 @@ public class DefaultComponent implements Component {
     @Override
     public Action getAction() {
         return action;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.action =action;
     }
 
     @Override

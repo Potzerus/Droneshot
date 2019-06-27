@@ -20,6 +20,7 @@ public class Drone implements Iterable<Component> {
     private int[] resources = new int[ResourceType.values().length];
     private DroneBrowser browser;
     private HashSet<Action> possibleActions;
+    private DroneStorage parent;
 
 
     public Drone(Control rootComponent) {
@@ -29,6 +30,13 @@ public class Drone implements Iterable<Component> {
         runnable=()->queuedAction.run();
     }
 
+    public void setParent(DroneStorage parent) {
+        this.parent = parent;
+    }
+
+    public DroneStorage getParent(){
+        return parent;
+    }
 
     public int getId() {
         return id;
@@ -93,6 +101,11 @@ public class Drone implements Iterable<Component> {
                 }
             }
         }
+    }
+
+    public int[] getFreshResources(){
+        recalculateResources();
+        return Arrays.copyOf(resources,resources.length);
     }
 
     public void recalcPossibleActions(){

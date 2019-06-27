@@ -9,4 +9,9 @@ public class Leg extends DefaultComponent {
         type = ComponentType.MOVEMENT;
         description="Movement Tool for Landbound walking";
     }
+
+    public Leg(){
+        super();
+        type=ComponentType.MOVEMENT;
+    }
 }

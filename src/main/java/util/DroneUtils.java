@@ -17,7 +17,7 @@ public class DroneUtils {
         Drone d = new Drone(new Control("Brain",Action.getIdle(),0, 1));
         d.getRootComponent().setParent(d);
         DroneBrowser db=d.getBrowser();
-        db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent("Chassis",Action.getIdle(),10, 4));
+        db.getCurrent().getFreeSocket(false,false).attach(new DefaultComponent("Chassis",Action.getIdle(),10, 6));
         Component c=db.moveTo(0);
         c.getFreeSocket(true,false).attach(new Fabricator("Fabricator",Action.getIdle(),1, 1, 1,0));
         for (int i = 0; i < 3; i++) {

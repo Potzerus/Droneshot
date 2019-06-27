@@ -13,6 +13,11 @@ public class ComponentStorage extends DefaultComponent {
         makeStorageSockets(plusStorage,minusStorage);
     }
 
+    public ComponentStorage(){
+        super();
+        type=ComponentType.COMPONENTSTORAGE;
+    }
+
     @Override
     public ComponentType getType() {
         return type;

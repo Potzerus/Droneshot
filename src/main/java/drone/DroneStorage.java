@@ -19,6 +19,7 @@ public class DroneStorage implements Iterable<Drone> {
     public boolean addDrone(Drone d) {
         if(drones.isEmpty())
             selectedDrone=d;
+        d.setParent(this);
         return drones.add(d);
     }
 
@@ -99,5 +100,9 @@ public class DroneStorage implements Iterable<Drone> {
 
     public void toggleShowId(){
         showId=!showId;
+    }
+
+    public Char getOwner() {
+        return owner;
     }
 }

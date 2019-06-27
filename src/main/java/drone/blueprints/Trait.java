@@ -7,19 +7,17 @@ import java.util.function.Consumer;
 
 public class Trait {
 
-    protected LinkedList<Consumer<Component>> effects;
+    protected LinkedList<Consumer<Component>> effects=new LinkedList<>();
 
-    public Trait(Trait...traits) {
-        for(Trait t : traits) {
-            for(Consumer<Component> c : t.getEffects()) {
-
-            }
+    public Trait(Trait... traits) {
+        for (Trait t : traits) {
+            effects.addAll(t.getEffects());
         }
     }
 
 
     public void applyTrait(Component comp) {
-        for(Consumer c : effects) {
+        for (Consumer c : effects) {
             c.accept(comp);
         }
     }

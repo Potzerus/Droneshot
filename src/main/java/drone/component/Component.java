@@ -26,9 +26,13 @@ public interface Component {
 
     Socket[] getPlusSockets(boolean getNonStorage, boolean getStorage);
 
+    void genSockets(int plus,int minus);
+
     Socket[] getMinusSockets(boolean getNonStorage, boolean getStorage);
 
     Action getAction();
+
+    void setAction(Action a);
 
     default Socket getFreeSocket(boolean plus) {
         Socket s = getFreeSocket(plus, false);
@@ -50,57 +54,6 @@ public interface Component {
         }
         return null;
     }
-
-/*
-    default boolean attach(Component c) {
-        if (hasFreeSocket(false) && c.hasFreeSocket(true)) {
-            Socket socket1, socket2;
-            {
-                int i = 0;
-
-                do {
-                    if (!(socket1 = getMinusSockets()[i]).isLinked())
-                        break;
-                    i++;
-                } while (i < getMinusSockets().length);
-
-            }
-            int i = 0;
-
-            do {
-                if (!(socket2 = c.getPlusSockets()[i]).isLinked())
-                    break;
-                i++;
-            } while (i < c.getPlusSockets().length);
-
-            socket1.setLinked(socket2);
-        } else if (hasFreeSocket(true) && c.hasFreeSocket(false)) {
-            Socket socket1, socket2;
-            {
-                int i = 0;
-
-                do {
-                    if (!(socket1 = getPlusSockets()[i]).isLinked())
-                        break;
-                    i++;
-                } while (i < getPlusSockets().length);
-
-            }
-            int i = 0;
-
-            do {
-                if (!(socket2 = c.getMinusSockets()[i]).isLinked())
-                    break;
-                i++;
-            } while (i < c.getMinusSockets().length);
-
-            socket1.setLinked(socket2);
-
-        } else
-            return false;
-        return true;
-    }
-*/
 
     default Socket getSocketConnectingTo(Component c) {
         for (Socket s : getSockets()) {
@@ -141,9 +94,13 @@ public interface Component {
     String getSocketString();
 
     default void makeStorageSockets(int plus, int minus) {
-        Socket[] plusArr = getPlusSockets();
-        for (int i = plusArr.length - 1; i >= plusArr.length - plus; i--) {
-            plusArr[i].setStorage(true);
+        Socket[] arr = getPlusSockets();
+        for (int i = arr.length - 1; i >= arr.length - plus; i--) {
+            arr[i].setStorage(true);
+        }
+        arr=getMinusSockets();
+        for (int i = arr.length - 1; i >= arr.length - minus; i--) {
+            arr[i].setStorage(true);
         }
     }
 

@@ -15,7 +15,7 @@ public class Tile {
     }
 
     public Tile(){
-        this(ResourceType.NONE, 0);
+        this(ResourceType.ENERGY, 0);
     }
 
     public ResourceType getResource() {

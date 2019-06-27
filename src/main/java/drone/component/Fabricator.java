@@ -13,6 +13,11 @@ public class Fabricator extends ComponentStorage {
         description="Fabricates new Drone Components";
     }
 
+    public Fabricator(){
+        super();
+        type=ComponentType.FABRICATOR;
+    }
+
     @Override
     public ComponentType getType() {
         return type;
