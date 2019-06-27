@@ -1,8 +1,12 @@
 package drone.actions;
 
-public class Research implements Action{
+public class Research extends Action{
 
-    private final String name="Research";
+    public Research(){
+        super();
+        name="Research";
+        description="Research new ComponentTypes or Traits!";
+    }
 
     @Override
     public void run() {

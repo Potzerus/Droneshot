@@ -4,7 +4,9 @@ import drone.Drone;
 import drone.DroneBrowser;
 import drone.DroneStorage;
 import drone.actions.Action;
+import drone.actions.ActionCouldNotExecuteError;
 import drone.component.*;
+import map.ResourceType;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.user.User;
 import potz.utils.commandMaps.CommandMap;
@@ -24,7 +26,7 @@ public class DroneUtils {
             c.getFreeSocket(true,false).attach(new Storage("DefaultChest",Action.getIdle(),0, 1, 5,30));
         }
         for (int i = 0; i < 4; i++) {
-            c.getFreeSocket(false,false).attach(new Leg("DefaultLeg",Action.getIdle(),1, 0));
+            c.getFreeSocket(false,false).attach(new Movement("DefaultLeg",Action.getIdle(),1, 0));
         }
         db.reset();
         return d;
@@ -42,7 +44,7 @@ public class DroneUtils {
             c.getFreeSocket(true,false).attach(new Storage("DefaultChest",Action.getIdle(),0, 1, 5,30));
         }
         for (int i = 0; i < numLeg; i++) {
-            c.getFreeSocket(false,false).attach(new Leg("DefaultLeg",Action.getIdle(),1, 0));
+            c.getFreeSocket(false,false).attach(new Movement("DefaultLeg",Action.getIdle(),1, 0));
         }
         db.reset();
         return d;
@@ -72,5 +74,14 @@ public class DroneUtils {
 
     public static int genId() {
         return idTick++;
+    }
+
+    public static void chargeIfAffordable(int[] cost, Drone executingDrone) {
+        int[] availableResources=executingDrone.getFreshResources();
+        for (int i = 0; i < ResourceType.values().length; i++) {
+            if(availableResources[i]+cost[i]<0)
+                throw new ActionCouldNotExecuteError("Insufficient Resources! Lacking:"+(cost[i]+availableResources[i])+ResourceType.values()[i].getName(),executingDrone.getParent().getOwner());
+        }
+        executingDrone.addResources(cost);
     }
 }

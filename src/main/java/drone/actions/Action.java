@@ -3,21 +3,30 @@ package drone.actions;
 import drone.Drone;
 import org.javacord.api.entity.channel.TextChannel;
 
-public interface Action {
+public abstract class Action {
+    protected String name = "Action";
+    protected String description = "Default Action";
+    protected int loops;
 
-    void run();
+    public abstract void run();
 
-    String getDescription();
-
-    boolean repeats();
-
-    String getName();
-
-    default void scream(Drone d, TextChannel c) {
-        c.sendMessage("I have no mouth but I must Scream");
+    public String getName(){
+        return name;
     }
 
-    static Action getIdle() {
+    public String getDescription(){
+        return description;
+    }
+
+    public boolean repeats(){
+        return --loops>=0;
+    }
+
+    public void setLoops(int amount){
+        loops=amount;
+    }
+
+    public static Action getIdle() {
         return new Action() {
 
             @Override
@@ -39,6 +48,7 @@ public interface Action {
             public String getName() {
                 return "Idle";
             }
+
         };
     }
 }

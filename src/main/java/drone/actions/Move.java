@@ -1,12 +1,14 @@
 package drone.actions;
 
-public class Move implements Action {
+public class Move extends Action {
 
     int maxAmount;
-    private final String name="Move";
 
     public Move(int maxAmount){
         this.maxAmount = maxAmount;
+        name="Move";
+        description="Move to a different Tile";
+
     }
 
     @Override
@@ -27,5 +29,10 @@ public class Move implements Action {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setLoops(int amount) {
+
     }
 }

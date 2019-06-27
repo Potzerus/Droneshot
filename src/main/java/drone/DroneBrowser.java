@@ -1,8 +1,6 @@
 package drone;
 
-import drone.Drone;
 import drone.component.Component;
-import drone.component.Socket;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import util.CommandFuckedUpError;
 

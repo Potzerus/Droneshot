@@ -1,4 +1,6 @@
-package drone.component;
+package drone;
+
+import drone.component.Component;
 
 public class Socket {
 
@@ -8,11 +10,11 @@ public class Socket {
     private final Component parent;
     //Potential Future stats like weight Limit etc
 
-    Socket(Component parent, boolean plus) {
+    public Socket(Component parent, boolean plus) {
         this(parent, plus, false);
     }
 
-    Socket(Component parent, boolean plus, boolean storage) {
+    public Socket(Component parent, boolean plus, boolean storage) {
         this.parent=parent;
         this.plus = plus;
         this.storage = storage;

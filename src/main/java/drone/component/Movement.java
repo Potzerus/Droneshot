@@ -2,15 +2,15 @@ package drone.component;
 
 import drone.actions.Action;
 
-public class Leg extends DefaultComponent {
+public class Movement extends DefaultComponent {
 
-    public Leg(String identifier, Action action, int plusSocketAmount, int minusSocketAmount) {
+    public Movement(String identifier, Action action, int plusSocketAmount, int minusSocketAmount) {
         super(identifier,action,plusSocketAmount, minusSocketAmount);
         type = ComponentType.MOVEMENT;
         description="Movement Tool for Landbound walking";
     }
 
-    public Leg(){
+    public Movement(){
         super();
         type=ComponentType.MOVEMENT;
     }

@@ -1,5 +1,6 @@
 package drone.component;
 
+import drone.Socket;
 import drone.actions.Action;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
@@ -105,6 +106,14 @@ public interface Component {
     }
 
     String getIdentifier();
+
+    int[] getBuildCost();
+
+    void setBuildCost(int[] buildCost);
+
+    int[] getUseCost();
+
+    void setUseCost(int[] useCost);
 
     void setIdentifier(String identifier);
 

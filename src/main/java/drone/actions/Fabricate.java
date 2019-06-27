@@ -5,22 +5,25 @@ import drone.Drone;
 import drone.blueprints.Blueprint;
 import drone.component.Component;
 import drone.component.Fabricator;
-import drone.component.Socket;
-import map.ResourceType;
+import drone.Socket;
 import potz.utils.database.Char;
+import util.DroneUtils;
 
-public class Fabricate implements Action {
+public class Fabricate extends Action {
 
 
-    private final String name = "Fabricate";
-    private Blueprint blueprint;
-    private Drone executingDrone;
     private Fabricator fabricator;
+    private Drone executingDrone;
+    private Blueprint blueprint;
+    private int loops;
 
-    public Fabricate(Blueprint blueprint, Drone executingDrone, Fabricator fabricator) {
+    public Fabricate(Fabricator fabricator, Drone executingDrone, Blueprint blueprint) {
         this.blueprint = blueprint;
         this.executingDrone = executingDrone;
         this.fabricator = fabricator;
+        name = "Fabricate";
+        description = "Creates a component";
+
     }
 
     @Override
@@ -44,15 +47,15 @@ public class Fabricate implements Action {
         if (fabricator.getFreeSocket(false, true) == null && c.getFreeSocket(false) == null)
             throw new ActionCouldNotExecuteError("Incompatible Sockets! you cannot connect plus and plus!", character);
 
-        int[] availableResources=executingDrone.getFreshResources();
-        int[] cost=blueprint.getCost();
-        for (int i = 0; i < ResourceType.values().length; i++) {
-            if(availableResources[i]<cost[i])
-                throw new ActionCouldNotExecuteError("Insufficient Resources! Lacking:"+(cost[i]-availableResources[i])+ResourceType.values()[i].getName(),character);
+        int[] cost = c.getBuildCost();
+        for (int i = 0; i < cost.length; i++) {
+            cost[i] += fabricator.getUseCost()[i];
         }
 
+        DroneUtils.chargeIfAffordable(cost, executingDrone);
 
         //This just works
+        //From four preconditions being wrong we already know that one of these has to work
         if (attacher != null) {
             Socket attachee = fabricator.getFreeSocket(true, true);
             attachee.setLinked(attacher);
@@ -65,12 +68,16 @@ public class Fabricate implements Action {
 
     @Override
     public String getDescription() {
-        return null;
+        return description;
     }
 
     @Override
     public boolean repeats() {
-        return false;
+        return --loops >= 0;
+    }
+
+    public void setLoops(int loops) {
+        this.loops = loops;
     }
 
     @Override

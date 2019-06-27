@@ -1,6 +1,8 @@
 package drone.component;
 
+import drone.Socket;
 import drone.actions.Action;
+import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.util.ArrayList;
@@ -15,6 +17,9 @@ public class DefaultComponent implements Component {
     protected String identifier="Newly Constructed Component";
     protected ComponentType type;
     protected String description="This is a basic Component, Frequently used as Structure to house other Components";
+    protected int[] buildCost=new int[ResourceType.values().length];
+    protected int[] useCost=new int[ResourceType.values().length];
+
 
     public DefaultComponent(String identifier,Action action,int plusSocketAmount, int minusSocketAmount ) {
         this.identifier = identifier;
@@ -116,6 +121,25 @@ public class DefaultComponent implements Component {
 
     }
 
+
+    @Override
+    public int[] getBuildCost() {
+        return buildCost;
+    }
+
+    public void setBuildCost(int[] buildCost) {
+        this.buildCost = buildCost;
+    }
+
+    @Override
+    public int[] getUseCost() {
+        return useCost;
+    }
+
+    @Override
+    public void setUseCost(int[] useCost) {
+        this.useCost = useCost;
+    }
 
     @Override
     public Action getAction() {

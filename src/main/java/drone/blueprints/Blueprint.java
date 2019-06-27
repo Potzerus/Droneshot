@@ -7,19 +7,26 @@ import java.util.Arrays;
 
 public class Blueprint {
 
-    private int[] cost;
+    private int[] buildCost;
+    private int[] useCost;
     private ComponentType type;
     private Trait trait;
 
 
-    public Blueprint(int[] cost, ComponentType type, Trait trait) {
-        this.cost = cost;
+    public Blueprint(ComponentType type, Trait trait) {
         this.type = type;
         this.trait = trait;
+        Component benchmark= build();
+        this.buildCost =benchmark.getBuildCost();
+        this.useCost =benchmark.getUseCost();
     }
 
-    public int[] getCost() {
-        return Arrays.copyOf(cost,cost.length);
+    public int[] getUseCost() {
+        return Arrays.copyOf(useCost, useCost.length);
+    }
+
+    public int[] getBuildCost() {
+        return Arrays.copyOf(buildCost,buildCost.length);
     }
 
     public ComponentType getType() {

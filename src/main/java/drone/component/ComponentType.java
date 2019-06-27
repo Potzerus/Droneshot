@@ -5,11 +5,13 @@ import java.util.function.Supplier;
 public enum ComponentType {
     STRUCTURE("Structure", DefaultComponent::new),
     CONTROL("Control",Control::new),
+    Generator("Generator",Generator::new),
     BATTERY("Battery",Battery::new),
+    HARVESTER("Harvester",Harvester::new),
     STORAGE("Storage",Storage::new),
-    COMPONENTSTORAGE("ComponentStorage",ComponentStorage::new),
     FABRICATOR("Fabricator",Fabricator::new),
-    MOVEMENT("Movement",Leg::new);
+    COMPONENTSTORAGE("ComponentStorage",ComponentStorage::new),
+    MOVEMENT("Movement", Movement::new);
 
     private String name;
     private Supplier<Component> constructor;
