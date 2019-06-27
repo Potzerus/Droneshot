@@ -1,12 +1,10 @@
 package drone.actions;
 
-import drone.Drone;
-
 public class Research implements Action{
 
 
     @Override
-    public void run(Drone d) {
+    public void run() {
 
     }
 

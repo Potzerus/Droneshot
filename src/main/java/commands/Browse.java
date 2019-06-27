@@ -30,7 +30,8 @@ public class Browse extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if (args.length == 2) {
             embedBuilder.setTitle(d.getIdentity(ds.hasShowId()));
-            embedBuilder.addField(db.getCurrent().getIdentifier() + "(" + db.getCurrent().getIdentifier() + ")", db.getCurrent().getDescription());
+            //embedBuilder.addField(db.getCurrent().getIdentifier() + "(" + db.getCurrent().getIdentifier() + ")", db.getCurrent().getDescription());
+            db.toEmbed(embedBuilder,true);
         } else if (args.length >= 3) {
             try {
                 Component comp = db.moveTo(Integer.parseInt(args[2]));
@@ -45,16 +46,12 @@ public class Browse extends Command {
                     case "reset":
                         db.reset();
                         break;
-                    case "swap":
-                        if (args.length == 3) {
-                            c.sendMessage("you need to specfiy which Socket you want to swap with!");
-                            return;
-                        } else
-                            db.swap(Integer.parseInt(args[3]));
-                        c.sendMessage("Successfully Swapped Components!");
-                        break;
                     case "sockets":
                         db.toEmbed(embedBuilder, true);
+                        break;
+                    case "rename":
+                        db.getCurrent().setIdentifier(args[3]);
+                        db.getCurrent().toEmbed(embedBuilder);
                         break;
                     default:
                         return;

@@ -1,6 +1,7 @@
 package drone.component;
 
 import drone.actions.Action;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.util.HashSet;
 
@@ -124,18 +125,11 @@ public interface Component {
     }
 
     default void stackAll(HashSet<Component> components) {
-        for (Socket s : getMinusSockets()) {
-            Component up = s.getLinkedComponent();
-            if (!components.contains(up))
-                up.stackAll(components);
-        }
-        components.add(this);
-        for (Socket s : getPlusSockets()) {
-            if (s.isLinked() && s.isPlus()) {
-                Component down = s.getLinkedComponent();
-                if (!components.contains(down))
-                    down.stackAll(components);
-            }
+
+        if (!components.add(this)) return;
+        for (Socket s : getSockets(true, false)) {
+            if (s != null && s.isLinked())
+                s.getLinkedComponent().stackAll(components);
         }
 
     }
@@ -146,12 +140,16 @@ public interface Component {
 
     String getSocketString();
 
-    default void makeStorageSockets(int plus,int minus){
-        Socket[] plusArr=getPlusSockets();
-        for (int i = plusArr.length-1; i >= plusArr.length-plus; i--) {
+    default void makeStorageSockets(int plus, int minus) {
+        Socket[] plusArr = getPlusSockets();
+        for (int i = plusArr.length - 1; i >= plusArr.length - plus; i--) {
             plusArr[i].setStorage(true);
         }
     }
 
     String getIdentifier();
+
+    void setIdentifier(String identifier);
+
+    void toEmbed(EmbedBuilder embedBuilder);
 }

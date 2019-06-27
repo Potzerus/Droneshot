@@ -1,7 +1,6 @@
 package drone;
 
 import drone.actions.Action;
-import drone.actions.Idle;
 import drone.component.Component;
 import drone.component.ComponentType;
 import drone.component.Control;
@@ -26,8 +25,8 @@ public class Drone implements Iterable<Component> {
     public Drone(Control rootComponent) {
         this.rootComponent = rootComponent;
         browser=new DroneBrowser(this);
-        queuedAction=new Idle();
-        runnable=()->queuedAction.run(this);
+        queuedAction=Action.getIdle();
+        runnable=()->queuedAction.run();
     }
 
 
@@ -44,7 +43,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public void resetQueuedAction(){
-        queuedAction = new Idle();
+        queuedAction = Action.getIdle();
     }
 
     public Runnable getRunnable() {
@@ -180,4 +179,11 @@ public class Drone implements Iterable<Component> {
         }
     }
 
+    public int[] addResources(int[] addedResources) {
+        for (Component c : this) {
+            if(c instanceof Storage)
+                ((Storage) c).fillOrEmptyTank(addedResources);
+        }
+        return addedResources;
+    }
 }

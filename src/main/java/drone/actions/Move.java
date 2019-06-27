@@ -1,7 +1,5 @@
 package drone.actions;
 
-import drone.Drone;
-
 public class Move implements Action {
 
     int maxAmount;
@@ -11,7 +9,7 @@ public class Move implements Action {
     }
 
     @Override
-    public void run(Drone d) {
+    public void run() {
 
     }
 

@@ -1,13 +1,10 @@
 package drone.actions;
 
-import drone.Drone;
-import drone.component.Socket;
-
 public class CraftAction implements Action {
 
 
     @Override
-    public void run(Drone d) {
+    public void run() {
 
     }
 

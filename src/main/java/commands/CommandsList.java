@@ -7,6 +7,8 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.util.logging.ExceptionLogger;
 import potz.utils.commands.Command;
 
+import java.util.Arrays;
+
 public class CommandsList extends Command {
 
 
@@ -14,7 +16,7 @@ public class CommandsList extends Command {
         super(identifier);
     }
 
-    public CommandsList(String identifier, String description){
+    public CommandsList(String identifier, String description) {
         super(identifier, description);
     }
 
@@ -23,8 +25,13 @@ public class CommandsList extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor(sender);
         embedBuilder.setTitle("List of available commands:");
-
-        for (Command command : commandMap){
+        Command[] holder = new Command[commandMap.size()];
+        int i=0;
+        for (Command command : commandMap) {
+            holder[i++]=command;
+        }
+        Arrays.sort(holder);
+        for (Command command : holder) {
             embedBuilder.addField(command.getIdentifier(), command.getDescription());
         }
         c.sendMessage(embedBuilder).exceptionally(ExceptionLogger.get());

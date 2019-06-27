@@ -1,6 +1,7 @@
 package drone.component;
 
 import drone.actions.Action;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -141,7 +142,17 @@ public class DefaultComponent implements Component {
     }
 
     @Override
+    public void setIdentifier(String identifier) {
+        this.identifier=identifier;
+    }
+
+    @Override
     public String toString() {
-        return identifier + ":" + (action == null ? "NA" : action.toString());
+        return identifier + ":" + (action == null ? "NA" : action);
+    }
+
+    @Override
+    public void toEmbed(EmbedBuilder embedBuilder){
+        embedBuilder.addField(identifier,description);
     }
 }

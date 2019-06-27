@@ -83,4 +83,10 @@ public class Storage extends DefaultComponent {
         }
         return sb.toString();
     }
+
+    public void fillOrEmptyTank(int[] addedResources) {
+        for (int i = 1; i < addedResources.length; i++) {
+            addedResources[i]=fillOrEmptyTank(ResourceType.values()[i],addedResources[i]);
+        }
+    }
 }

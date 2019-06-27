@@ -67,4 +67,8 @@ public class Tile {
             return amount;
         }
     }
+
+    public int[] extractResources(int[] expectedResources) {
+        return new int[0];
+    }
 }

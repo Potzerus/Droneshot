@@ -1,7 +1,10 @@
+package launcher;
+
 import commands.*;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import potz.utils.Module;
+import potz.utils.commands.Echo;
 import potz.utils.database.ModuleStorage;
 import potz.utils.database.State;
 
@@ -27,7 +30,14 @@ public class DroneModule extends Module {
                 new CommandsList("commands",
                         "Shows the list of bot commands"),
                 new ActionList("actions",
-                        "Shows all available actions with the currently selected drone")
+                        "Shows all available actions with the currently selected drone"),
+                new Swap("swap",
+                        "Lets you swap a Component with the currently held one"),
+                new Take("take",
+                        "Lets you take a Component if you arent holding one already, swaps them otherwise"),
+                new Echo("degenerate",
+                        "Displays Information concerning degeneracy",
+                        "https://cdn.discordapp.com/attachments/403467603034767360/593784840575385600/iu.png")
         );
     }
 

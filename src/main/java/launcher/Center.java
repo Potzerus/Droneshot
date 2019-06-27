@@ -1,6 +1,9 @@
+package launcher;
+
 import drone.Drone;
 import drone.DroneStorage;
 import drone.actions.Action;
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.permission.PermissionType;
 import potz.utils.database.Char;
 import potz.utils.database.ServerStorage;
@@ -12,7 +15,6 @@ import potz.Utils;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Center {
@@ -22,6 +24,12 @@ public class Center {
     private static Long[] botAuthors = new Long[]{125660719323676672L, 277367997327212544L};
     private static Long[] defaultServers = new Long[]{532907700326105108L, 377546781732503553L};
     private static ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+    public static TextChannel getLast() {
+        return last;
+    }
+
+    private static TextChannel last;
 
 
     public static void main(String[] args) {
@@ -36,7 +44,7 @@ public class Center {
                     DroneStorage ds = (DroneStorage) character.getOrAddStat("droneStorage", new DroneStorage(character));
                     for (Drone d : ds) {
                         Action a = d.getQueuedAction();
-                        a.run(d);
+                        a.run();
                         if (!a.repeats()) {
                             d.resetQueuedAction();
                         }
@@ -50,7 +58,8 @@ public class Center {
         }, 1, 1, TimeUnit.MINUTES);
 
         api.addMessageCreateListener(event -> {
-            if (!event.getMessageAuthor().isYourself()) {
+            if (!event.getMessageAuthor().asUser().get().isBot()) {
+                last=event.getChannel();
                 System.out.println(event.getMessageContent());
                 if (event.getMessageContent().startsWith(prefix)) {
                     String[] argus = event.getMessageContent().split(" ");

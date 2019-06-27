@@ -1,11 +1,15 @@
 package util;
 
 import org.javacord.api.entity.channel.TextChannel;
-import potz.utils.commands.Command;
+import launcher.Center;
 
 public class CommandFuckedUpError extends Error {
-    CommandFuckedUpError(String ErrorMessage, TextChannel c) {
+    public CommandFuckedUpError(String ErrorMessage, TextChannel c) {
         super();
         c.sendMessage(ErrorMessage);
+    }
+    public CommandFuckedUpError(String ErrorMessage) {
+        super();
+        Center.getLast().sendMessage(ErrorMessage);
     }
 }
