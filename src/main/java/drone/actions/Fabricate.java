@@ -15,15 +15,12 @@ public class Fabricate extends Action {
     private Fabricator fabricator;
     private Drone executingDrone;
     private Blueprint blueprint;
-    private int loops;
 
     public Fabricate(Fabricator fabricator, Drone executingDrone, Blueprint blueprint) {
+        super(executingDrone,"Fabricate","Creates a component");
         this.blueprint = blueprint;
         this.executingDrone = executingDrone;
         this.fabricator = fabricator;
-        name = "Fabricate";
-        description = "Creates a component";
-
     }
 
     @Override
@@ -64,24 +61,5 @@ public class Fabricate extends Action {
             Socket attachee = fabricator.getFreeSocket(false, true);
             attachee.setLinked(attacher);
         }
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public boolean repeats() {
-        return --loops >= 0;
-    }
-
-    public void setLoops(int loops) {
-        this.loops = loops;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

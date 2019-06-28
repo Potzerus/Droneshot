@@ -1,14 +1,18 @@
 package drone.actions;
 
+import drone.Drone;
+import drone.component.Movement;
+
 public class Move extends Action {
 
-    int maxAmount;
+    private int maxAmount;
+    private Movement mover;
 
-    public Move(int maxAmount){
+
+    public Move(Movement mover, Drone executingDrone, int maxAmount) {
+        super(executingDrone,"Move","Move to a different Tile");
         this.maxAmount = maxAmount;
-        name="Move";
-        description="Move to a different Tile";
-
+        this.mover=mover;
     }
 
     @Override
@@ -16,23 +20,6 @@ public class Move extends Action {
 
     }
 
-    @Override
-    public String getDescription() {
-        return "move";
-    }
 
-    @Override
-    public boolean repeats() {
-        return false;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setLoops(int amount) {
-
-    }
 }
+

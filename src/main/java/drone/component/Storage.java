@@ -25,6 +25,10 @@ public class Storage extends DefaultComponent {
         type=ComponentType.STORAGE;
     }
 
+    public int getStorageCapacity(){
+        return storageCapacity;
+    }
+
     public void setStorageCapacity(int storageCapacity) {
         this.storageCapacity = storageCapacity;
     }
