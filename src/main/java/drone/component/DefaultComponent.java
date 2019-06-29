@@ -1,6 +1,8 @@
 package drone.component;
 
+import drone.Socket;
 import drone.actions.Action;
+import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.util.ArrayList;
@@ -12,20 +14,32 @@ public class DefaultComponent implements Component {
 
     protected Socket[] plusSockets, minusSockets;
     protected Action action;
-    protected String identifier;
+    protected String identifier="Newly Constructed Component";
     protected ComponentType type;
-    protected String description;
+    protected String description="This is a basic Component, Frequently used as Structure to house other Components";
+    protected int[] buildCost=new int[ResourceType.values().length];
+    protected int[] useCost=new int[ResourceType.values().length];
+
 
     public DefaultComponent(String identifier,Action action,int plusSocketAmount, int minusSocketAmount ) {
         this.identifier = identifier;
         this.action=action;
+        genSockets(plusSocketAmount,minusSocketAmount);
+        type = ComponentType.STRUCTURE;
+    }
+
+    public DefaultComponent(){
+        type=ComponentType.STRUCTURE;
+    }
+
+    @Override
+    public void genSockets(int plusSocketAmount, int minusSocketAmount) {
         Component component = this;
         this.plusSockets = new Socket[plusSocketAmount];
         Arrays.setAll(plusSockets, value -> new Socket(component, true));
         this.minusSockets = new Socket[minusSocketAmount];
         Arrays.setAll(minusSockets, value -> new Socket(component, false));
-        type = ComponentType.STRUCTURE;
-        description = "This is a basic Component, Frequently used as Structure to house other Components";
+
     }
 
 
@@ -109,8 +123,32 @@ public class DefaultComponent implements Component {
 
 
     @Override
+    public int[] getBuildCost() {
+        return buildCost;
+    }
+
+    public void setBuildCost(int[] buildCost) {
+        this.buildCost = buildCost;
+    }
+
+    @Override
+    public int[] getUseCost() {
+        return useCost;
+    }
+
+    @Override
+    public void setUseCost(int[] useCost) {
+        this.useCost = useCost;
+    }
+
+    @Override
     public Action getAction() {
         return action;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.action =action;
     }
 
     @Override

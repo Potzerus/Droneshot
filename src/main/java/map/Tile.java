@@ -15,7 +15,7 @@ public class Tile {
     }
 
     public Tile(){
-        this(ResourceType.NONE, 0);
+        this(ResourceType.ENERGY, 0);
     }
 
     public ResourceType getResource() {
@@ -68,7 +68,12 @@ public class Tile {
         }
     }
 
+    //TODO: Implement these please Valayna senpai
     public int[] extractResources(int[] expectedResources) {
         return new int[0];
+    }
+
+    public void addResources(int[] resources) {
+
     }
 }

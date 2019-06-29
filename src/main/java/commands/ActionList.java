@@ -12,11 +12,6 @@ import util.DroneUtils;
 
 public class ActionList extends Command {
 
-
-    public ActionList(String identifier) {
-        super(identifier);
-    }
-
     public ActionList(String identifier, String description) {
         super(identifier, description);
     }
@@ -24,7 +19,7 @@ public class ActionList extends Command {
     @Override
     public void execute(User sender, Server s, TextChannel c, String[] args) {
         DroneStorage ds = DroneUtils.getStorageOrWarnUser(sender, c, commandMap);
-        DroneUtils.checkStorage(c,ds);
+        DroneUtils.checkStorage(c, ds);
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor(sender);
         embedBuilder.setTitle("Available actions with: " + ds.getSelectedDrone().getIdentity());

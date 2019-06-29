@@ -1,10 +1,7 @@
 package drone;
 
 import drone.actions.Action;
-import drone.component.Component;
-import drone.component.ComponentType;
-import drone.component.Control;
-import drone.component.Storage;
+import drone.component.*;
 import map.ResourceType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import util.DroneUtils;
@@ -13,22 +10,30 @@ import java.util.*;
 
 public class Drone implements Iterable<Component> {
     private Control rootComponent;
-    private String name="New Drone";
+    private String name = "New Drone";
     private int id = DroneUtils.genId();
     private Action queuedAction;
     private Runnable runnable;
     private int[] resources = new int[ResourceType.values().length];
     private DroneBrowser browser;
     private HashSet<Action> possibleActions;
+    private DroneStorage parent;
 
 
     public Drone(Control rootComponent) {
         this.rootComponent = rootComponent;
-        browser=new DroneBrowser(this);
-        queuedAction=Action.getIdle();
-        runnable=()->queuedAction.run();
+        browser = new DroneBrowser(this);
+        queuedAction = Action.getIdle();
+        runnable = () -> queuedAction.run();
     }
 
+    public void setParent(DroneStorage parent) {
+        this.parent = parent;
+    }
+
+    public DroneStorage getParent() {
+        return parent;
+    }
 
     public int getId() {
         return id;
@@ -42,7 +47,7 @@ public class Drone implements Iterable<Component> {
         return queuedAction;
     }
 
-    public void resetQueuedAction(){
+    public void resetQueuedAction() {
         queuedAction = Action.getIdle();
     }
 
@@ -50,8 +55,8 @@ public class Drone implements Iterable<Component> {
         return runnable;
     }
 
-    public void setRunnable(Runnable r){
-        runnable=r;
+    public void setRunnable(Runnable r) {
+        runnable = r;
     }
 
     public Action[] getActions() {
@@ -59,10 +64,10 @@ public class Drone implements Iterable<Component> {
         for (Component c : this) {
             set.add(c.getAction());
         }
-        Action[] actions=new Action[set.size()];
-        int i=0;
-        for (Action a:set) {
-            actions[i++]=a;
+        Action[] actions = new Action[set.size()];
+        int i = 0;
+        for (Action a : set) {
+            actions[i++] = a;
         }
         return actions;
     }
@@ -77,36 +82,52 @@ public class Drone implements Iterable<Component> {
 
     public boolean hasComponentType(ComponentType type) {
         for (Component component : this) {
-            if (type==component.getType())
+            if (type == component.getType())
                 return true;
         }
         return false;
     }
 
+    public void addResources(int[] addedResources) {
+        for (Component c : this) {
+            if (c.getType() == ComponentType.STORAGE)
+                ((Storage) c).fillOrEmptyTank(addedResources);
+            else if (c.getType() == ComponentType.BATTERY)
+                ((Battery) c).changeEnergyLevel(addedResources[0]);
+        }
+    }
+
     public void recalculateResources() {
         Arrays.fill(resources, 0);
         for (Component c : this) {
-            if (c.getType()==ComponentType.STORAGE) {
+            if (c.getType() == ComponentType.STORAGE) {
                 int[] addition = ((Storage) c).getResource();
-                for (int i = 0; i < resources.length; i++) {
+                for (int i = 1; i < resources.length; i++) {
                     resources[i] += addition[i];
                 }
+            } else if (c.getType() == ComponentType.BATTERY) {
+                resources[0] += ((Battery) c).getCurrentEnergy();
             }
         }
     }
 
-    public void recalcPossibleActions(){
+    public int[] getFreshResources() {
+        recalculateResources();
+        return Arrays.copyOf(resources, resources.length);
+    }
+
+    public void recalcPossibleActions() {
         possibleActions.clear();
         for (Component c : this) {
             possibleActions.add(c.getAction());
         }
     }
 
-    public DroneBrowser getBrowser(){
+    public DroneBrowser getBrowser() {
         return browser;
     }
 
-    public void resetBrowser(){
+    public void resetBrowser() {
         browser.reset();
     }
 
@@ -129,7 +150,7 @@ public class Drone implements Iterable<Component> {
     public String getDroneInfo() {
         StringBuilder sb = new StringBuilder();
         ResourceType[] types = ResourceType.values();
-        boolean noResources=true;
+        boolean noResources = true;
         sb.append("Resources: ");
         for (int i = 1; i < types.length; i++) {
             if (resources[i] > 0) {
@@ -137,10 +158,10 @@ public class Drone implements Iterable<Component> {
                 sb.append(':');
                 sb.append(resources[i]);
                 sb.append(" ");
-                noResources=false;
+                noResources = false;
             }
         }
-        if(noResources)
+        if (noResources)
             sb.append("None ");
         return sb.toString();
     }
@@ -150,7 +171,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public String getIdentity(boolean showId) {
-        return name + (showId?":" + id:"");
+        return name + (showId ? ":" + id : "");
     }
 
     public String getComponentInfo() {
@@ -173,17 +194,9 @@ public class Drone implements Iterable<Component> {
         embedBuilder.addField("Components:", getComponentInfo());
     }
 
-    public void listActionsAsEmbeds(EmbedBuilder embedBuilder){
-        for (Action action : getActions()){
-            embedBuilder.addField(action.getDescription(), " -1");
+    public void listActionsAsEmbeds(EmbedBuilder embedBuilder) {
+        for (Action action : getActions()) {
+            embedBuilder.addField(action.getName(), action.getDescription());
         }
-    }
-
-    public int[] addResources(int[] addedResources) {
-        for (Component c : this) {
-            if(c instanceof Storage)
-                ((Storage) c).fillOrEmptyTank(addedResources);
-        }
-        return addedResources;
     }
 }

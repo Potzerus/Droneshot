@@ -2,36 +2,47 @@ package drone.actions;
 
 import drone.Drone;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 
-public interface Action {
+public abstract class Action {
+    protected String name;
+    protected String description;
+    protected Drone executingDrone;
+    protected int loops;
 
-    void run();
-
-    String getDescription();
-
-    boolean repeats();
-
-    default void scream(Drone d, TextChannel c) {
-        c.sendMessage("I have no mouth but I must Scream");
+    public Action(Drone executingDrone,String name,String description) {
+        this.executingDrone = executingDrone;
+        this.name=name;
+        this.description=description;
     }
 
-    static Action getIdle() {
-        return new Action() {
+    public abstract void run();
 
-            @Override
-            public void run() {
+    public String getName() {
+        return name;
+    }
 
-            }
+    public String getDescription() {
+        return description;
+    }
 
-            @Override
-            public String getDescription() {
-                return "Does Nothing";
-            }
+    public boolean repeats() {
+        return loops-- != 0;
+    }
 
-            @Override
-            public boolean repeats() {
-                return true;
-            }
-        };
+    public void setLoops(int amount) {
+        loops = amount;
+    }
+
+    public String toString() {
+        return name + '\n' + description;
+    }
+
+    public void toEmbed(EmbedBuilder embedBuilder) {
+        embedBuilder.addField(name, description);
+    }
+
+    public static Action getIdle() {
+        return new Idle(null);
     }
 }

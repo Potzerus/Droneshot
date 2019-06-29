@@ -3,6 +3,7 @@ package drone;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import potz.utils.database.Char;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -11,6 +12,7 @@ public class DroneStorage implements Iterable<Drone> {
     private HashSet<Drone> drones = new HashSet<>();
     private Drone selectedDrone;
     private boolean showId=true;
+    private int[] componentTechs;
 
     public DroneStorage(Char owner) {
         this.owner = owner;
@@ -19,6 +21,7 @@ public class DroneStorage implements Iterable<Drone> {
     public boolean addDrone(Drone d) {
         if(drones.isEmpty())
             selectedDrone=d;
+        d.setParent(this);
         return drones.add(d);
     }
 
@@ -87,6 +90,7 @@ public class DroneStorage implements Iterable<Drone> {
 
     public void reset() {
         drones.clear();
+        Arrays.fill(componentTechs,0);
     }
 
     public static DroneStorage getStorage(Char c){
@@ -99,5 +103,9 @@ public class DroneStorage implements Iterable<Drone> {
 
     public void toggleShowId(){
         showId=!showId;
+    }
+
+    public Char getOwner() {
+        return owner;
     }
 }

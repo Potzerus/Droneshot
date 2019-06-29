@@ -1,15 +1,12 @@
 package drone;
 
-import drone.Drone;
 import drone.component.Component;
-import drone.component.Socket;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import util.CommandFuckedUpError;
 
 import java.util.ArrayList;
 
 public class DroneBrowser {
-    //TODO:Like in Iterator but works in many directions and can be used by the User aswell for traversing and understanding individual Drones
     private Component current;
     private Drone parent;
     private Socket held;

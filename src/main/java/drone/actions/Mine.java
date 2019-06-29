@@ -1,33 +1,29 @@
 package drone.actions;
 
 import drone.Drone;
+import drone.component.Harvester;
 import map.ResourceType;
 import map.Tile;
+import potz.utils.database.Char;
+import util.DroneUtils;
 
-public class Mine implements Action {
+public class Mine extends Action {
 
-    //TODO: Check for Mapconditions to be met
-    Tile currentTile;
-    int[] expectedResources;
-    Drone executingDrone;
+    private Harvester harvester;
+    private Drone executingDrone;
+    private Tile currentTile;
 
-    public Mine(Tile currentTile,int[] expectedResources,Drone d){
-
+    public Mine(Harvester harvester, Drone executingDrone,Tile currentTile) {
+        super(executingDrone,"Mine","Mines the current Tile for resources");
+        this.currentTile=currentTile;
+        this.harvester=harvester;
+        this.executingDrone=executingDrone;
     }
 
     @Override
     public void run() {
-        int[] actuallyMinedResources=currentTile.extractResources(expectedResources);
-        executingDrone.addResources(actuallyMinedResources);
-    }
+        DroneUtils.chargeIfAffordable(harvester.getUseCost(),executingDrone);
 
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public boolean repeats() {
-        return false;
+        executingDrone.addResources(currentTile.extractResources(harvester.getHarvestCapacity()));
     }
 }

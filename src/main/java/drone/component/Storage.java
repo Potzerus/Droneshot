@@ -5,8 +5,6 @@ import map.ResourceType;
 
 import java.util.Arrays;
 
-import static map.ResourceType.NONE;
-
 public class Storage extends DefaultComponent {
 
     private int storageCapacity;
@@ -20,6 +18,23 @@ public class Storage extends DefaultComponent {
         type = ComponentType.STORAGE;
         description = "Used to Store Materials";
         this.maxStoredTypes =maxStoredTypes;
+    }
+
+    public Storage(){
+        super();
+        type=ComponentType.STORAGE;
+    }
+
+    public int getStorageCapacity(){
+        return storageCapacity;
+    }
+
+    public void setStorageCapacity(int storageCapacity) {
+        this.storageCapacity = storageCapacity;
+    }
+
+    public void setMaxStoredTypes(int maxStoredTypes) {
+        this.maxStoredTypes = maxStoredTypes;
     }
 
     /**

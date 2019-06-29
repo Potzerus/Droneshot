@@ -214,7 +214,7 @@ public class TileMap {
     }
 
     /**
-     * Sets all resources of the map to NONE
+     * Sets all resources of the map to ENERGY
      */
     public void reset(){
         Arrays.setAll(this.tileMap, x -> {
@@ -234,7 +234,7 @@ public class TileMap {
     public void scatterResources(ResourceType resourceType, double density){
         for (Tile[] tiles : this.tileMap){
             for (Tile tile : tiles){
-                if (tile.getResource().equals(ResourceType.NONE) && Math.random() < density){
+                if (tile.getResource().equals(ResourceType.ENERGY) && Math.random() < density){
                     tile.setResource(resourceType);
                 }
             }
@@ -313,7 +313,7 @@ public class TileMap {
        for (Tile[] tiles : tileMap){
            for (Tile tile : tiles){
                if (tile == null){
-                   tile = new Tile(ResourceType.NONE, 0);
+                   tile = new Tile(ResourceType.ENERGY, 0);
                }
            }
        }
