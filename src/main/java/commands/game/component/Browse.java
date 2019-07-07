@@ -1,4 +1,4 @@
-package commands;
+package commands.game.component;
 
 import drone.Drone;
 import drone.DroneStorage;

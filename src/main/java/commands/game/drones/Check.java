@@ -1,4 +1,4 @@
-package commands;
+package commands.game.drones;
 
 import drone.Drone;
 import drone.DroneStorage;
@@ -11,10 +11,6 @@ import potz.utils.commands.Command;
 import util.DroneUtils;
 
 public class Check extends Command {
-
-    public Check(String identifier) {
-        super(identifier);
-    }
 
     public Check(String identifier,String description) {
         super(identifier,description);

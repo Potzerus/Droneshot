@@ -19,6 +19,7 @@ public class DefaultComponent implements Component {
     protected String description="This is a basic Component, Frequently used as Structure to house other Components";
     protected int[] buildCost=new int[ResourceType.values().length];
     protected int[] useCost=new int[ResourceType.values().length];
+    private int controlStrength;
 
 
     public DefaultComponent(String identifier,Action action,int plusSocketAmount, int minusSocketAmount ) {
@@ -192,5 +193,10 @@ public class DefaultComponent implements Component {
     @Override
     public void toEmbed(EmbedBuilder embedBuilder){
         embedBuilder.addField(identifier,description);
+    }
+
+    @Override
+    public int getControlStrength(){
+        return controlStrength;
     }
 }

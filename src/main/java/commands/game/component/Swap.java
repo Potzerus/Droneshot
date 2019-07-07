@@ -1,4 +1,4 @@
-package commands;
+package commands.game.component;
 
 import drone.DroneBrowser;
 import org.javacord.api.entity.channel.TextChannel;

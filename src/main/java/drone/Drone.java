@@ -134,7 +134,7 @@ public class Drone implements Iterable<Component> {
     @Override
     public Iterator<Component> iterator() {
         HashSet<Component> components = new HashSet<>();
-        rootComponent.stackAll(components);
+        rootComponent.stackAll(components,null);
 
         return components.iterator();
     }
@@ -191,7 +191,7 @@ public class Drone implements Iterable<Component> {
     }
 
     public void toEmbedField(EmbedBuilder embedBuilder) {
-        embedBuilder.addField("Components:", getComponentInfo());
+        embedBuilder.addField(getIdentity(parent.hasShowId()), getDroneInfo());
     }
 
     public void listActionsAsEmbeds(EmbedBuilder embedBuilder) {

@@ -1,4 +1,4 @@
-package commands;
+package commands.game.drones;
 
 import drone.DroneStorage;
 import org.javacord.api.entity.channel.TextChannel;
@@ -8,10 +8,6 @@ import potz.utils.commands.Command;
 import util.DroneUtils;
 
 public class Rename extends Command {
-
-    public Rename(String identifier) {
-        super(identifier);
-    }
 
     public Rename(String identifier,String description) {
         super(identifier,description);

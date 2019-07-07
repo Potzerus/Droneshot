@@ -1,4 +1,4 @@
-package commands;
+package commands.game.drones;
 
 import drone.Drone;
 import drone.DroneStorage;
@@ -11,10 +11,6 @@ import util.CommandFuckedUpError;
 import util.DroneUtils;
 
 public class Select extends Command {
-
-    public Select(String identifier) {
-        super(identifier);
-    }
 
     public Select(String identifier,String description) {
         super(identifier,description);

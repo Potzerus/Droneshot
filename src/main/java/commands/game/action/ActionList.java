@@ -1,4 +1,4 @@
-package commands;
+package commands.game.action;
 
 import drone.DroneStorage;
 import org.javacord.api.entity.channel.TextChannel;

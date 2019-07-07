@@ -8,7 +8,7 @@ public abstract class Action {
     protected String name;
     protected String description;
     protected Drone executingDrone;
-    protected int loops;
+    protected int loops=0;
 
     public Action(Drone executingDrone,String name,String description) {
         this.executingDrone = executingDrone;

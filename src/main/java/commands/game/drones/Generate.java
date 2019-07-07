@@ -1,4 +1,4 @@
-package commands;
+package commands.game.drones;
 
 import drone.Drone;
 import drone.DroneStorage;
@@ -10,10 +10,6 @@ import potz.utils.database.Char;
 import util.DroneUtils;
 
 public class Generate extends Command {
-
-    public Generate(String identifier) {
-        super(identifier);
-    }
 
     public Generate(String identifier,String description) {
         super(identifier,description);

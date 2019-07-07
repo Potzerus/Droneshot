@@ -78,12 +78,12 @@ public interface Component {
         return false;
     }
 
-    default void stackAll(HashSet<Component> components) {
+    default void stackAll(HashSet<Component> components,Component previous) {
 
-        if (!components.add(this)) return;
+        components.add(this);
         for (Socket s : getSockets(true, false)) {
-            if (s != null && s.isLinked())
-                s.getLinkedComponent().stackAll(components);
+            if (s != null && s.isLinked()&&s.getLinkedComponent()!=previous)
+                s.getLinkedComponent().stackAll(components,this);
         }
 
     }
@@ -118,4 +118,6 @@ public interface Component {
     void setIdentifier(String identifier);
 
     void toEmbed(EmbedBuilder embedBuilder);
+
+    int getControlStrength();
 }

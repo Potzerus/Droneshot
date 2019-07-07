@@ -1,12 +1,27 @@
 package launcher;
 
-import commands.*;
+import commands.CommandsList;
+import commands.ToggleId;
+import commands.game.action.ActionList;
+import commands.game.component.Browse;
+import commands.game.component.Swap;
+import commands.game.component.Take;
+import commands.game.drones.Check;
+import commands.game.drones.Generate;
+import commands.game.drones.Rename;
+import commands.game.drones.Select;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.server.Server;
 import potz.utils.Module;
 import potz.utils.commands.Echo;
-import potz.utils.database.ModuleStorage;
 import potz.utils.database.State;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DroneModule extends Module {
 
@@ -25,8 +40,6 @@ public class DroneModule extends Module {
                         "Used to take a more thorough look into the makeup of your Drone"),
                 new ToggleId("toggleid",
                         "Toggles wether you will see your Drone's Id's or not"),
-                new Scream("scream",
-                        "Testing Method please ignore"),
                 new CommandsList("commands",
                         "Shows the list of bot commands"),
                 new ActionList("actions",
@@ -47,7 +60,23 @@ public class DroneModule extends Module {
     }
 
     @Override
-    public ModuleStorage genStorage() {
-        return null;
+    public void saveModule() {
+        try{
+        PrintWriter writer = new PrintWriter("rolegifter.txt", "UTF-8");
+
+        writer.close();
+    }catch(FileNotFoundException| UnsupportedEncodingException e){
+        e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadModule() {
+        Path p=Paths.get(System.getProperty("user.dir")+"rolegifter.txt");
+        File f=p.toFile();
+        if(!f.exists()){
+            return;
+        }
+
     }
 }
