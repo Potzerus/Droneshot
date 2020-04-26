@@ -13,6 +13,6 @@ repositories {
 
 
 dependencies {
-    implementation 'org.javacord:javacord:3.0.3'
+    implementation 'org.javacord:javacord:3.0.5'
     implementation 'potz.utils:DiscordBotBase:1.0'
 }
